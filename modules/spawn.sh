@@ -1,16 +1,20 @@
 # $Id$
 
 chroot_dir=/mnt/gentoo
+output_logfile=/tmp/installoutput.log
 
 spawn() {
   cmd=$1
 
   debug spawn "running command '${cmd}'"
+  rm ${output_logfile}.cur 2>/dev/null
   if [ ${verbose} = 1 ]; then
-    eval "${cmd}" 2>&1
+    (eval "${cmd}" 2>&1; spawn_exitcode=$?) | tee -a ${output_logfile} ${output_logfile}.cur
   else
-    eval "${cmd}" &>/dev/null
+    (eval "${cmd}" 2>&1; spawn_exitcode=$?) | tee -a ${output_logfile} ${output_logfile}.cur &>/dev/null
   fi
+
+  return ${spawn_exitcode}
 }
 
 spawn_chroot() {
