@@ -97,6 +97,9 @@ tree_type() {
 
 sanity_check_config() {
   local fatal=0
+
+  debug sanity_check_config "$(set)"
+
   if [ -z "${chroot_dir}" ]; then
     error "chroot_dir is not defined (this can only happen if you set it to a blank string)"
     fatal=1
@@ -137,5 +140,8 @@ sanity_check_config() {
     warn "bootloader not set...assuming grub"
     bootloader="grub"
   fi
+
+  debug sanity_check_config "$(set)"
+
   [ "${fatal}" = "1" ] && exit 1
 }

@@ -115,7 +115,7 @@ debug main "arch is ${arch}"
 run_pre_install_script "Running pre-install script"
 
 if [ "${mode}" != "chroot" ]; then 
-  partition "Partitioning"
+  runstep partition "Partitioning"
 fi
 
 runstep setup_md_raid "Setting up RAID arrays"
@@ -124,7 +124,6 @@ runstep mount_local_partitions "Mounting local partitions"
 runstep mount_network_shares "Mounting network shares"
 runstep unpack_stage_tarball "Fetching and unpacking stage tarball"
 runstep prepare_chroot "Preparing chroot"
-#run_pre_chroot_script
 
 if [ "${mode}" != "stage4" ]; then
   runstep install_portage_tree "Installing portage tree"
