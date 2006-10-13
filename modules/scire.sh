@@ -1,8 +1,8 @@
 # $Id$
 
 send_xmlrpc_request() {
-  func=$1
-  param=$2
+  local func=$1
+  local param=$2
 
 }
 

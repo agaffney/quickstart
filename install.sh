@@ -44,10 +44,9 @@ EOF
 }
 
 # Parse args
-params=${#}
 while [ ${#} -gt 0 ]
 do
-  a=${1}
+  local a=${1}
   shift
   case "${a}" in
     -h|--help)

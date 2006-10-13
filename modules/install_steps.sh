@@ -27,7 +27,7 @@ partition() {
       local size=$(echo ${partition} | cut -d: -f3)
       local devnode="${device}${minor}"
       debug mount_local_partitions "devnode is ${devnode}"
-      if [ "${size}" = "*" ]; then
+      if [ "${size}" = "+" ]; then
         size=""
       else
         size=$(expr ${size} \* 2048)

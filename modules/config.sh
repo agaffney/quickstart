@@ -98,7 +98,7 @@ tree_type() {
 sanity_check_config() {
   local fatal=0
 
-  debug sanity_check_config "$(set)"
+  debug sanity_check_config "$(set | grep '^[a-z]')"
 
   if [ -z "${chroot_dir}" ]; then
     error "chroot_dir is not defined (this can only happen if you set it to a blank string)"
@@ -141,7 +141,7 @@ sanity_check_config() {
     bootloader="grub"
   fi
 
-  debug sanity_check_config "$(set)"
+  debug sanity_check_config "$(set | grep '^[a-z]')"
 
   [ "${fatal}" = "1" ] && exit 1
 }

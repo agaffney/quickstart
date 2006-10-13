@@ -7,7 +7,7 @@ bootloader grub
 
 part hda 1 83 100
 part hda 2 82 512
-part hda 3 83 *
+part hda 3 83
 
 format /dev/hda1 ext2
 format /dev/hda2 swap
