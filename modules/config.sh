@@ -49,7 +49,7 @@ netmount() {
   local mountpoint=$3
   local mountopts=$4
 
-  local tmpnetmount="${exoirt}|${type}|${mountpoint}|${mountopts}"
+  local tmpnetmount="${export}|${type}|${mountpoint}|${mountopts}"
   if [ -n "${netmounts}" ]; then
     netmounts="${netmounts} ${tmpnetmount}"
   else
