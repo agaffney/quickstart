@@ -1,14 +1,14 @@
 # $Id$
 
 part() {
-  drive=$1
-  minor=$2
-  type=$3
-  size=$4
+  local drive=$1
+  local minor=$2
+  local type=$3
+  local size=$4
 
   drive=$(echo ${drive} | sed -e 's:^/dev/::' -e 's:/:_:g')
-  drive_temp="partitions_${drive}"
-  tmppart="${minor}:${type}:${size}"
+  local drive_temp="partitions_${drive}"
+  local tmppart="${minor}:${type}:${size}"
   if [ -n "$(eval echo \${${drive_temp}})" ]; then
     eval "${drive_temp}=\"$(eval echo \${${drive_temp}}) ${tmppart}\""
   else
@@ -18,10 +18,10 @@ part() {
 }
 
 format() {
-  device=$1
-  fs=$2
+  local device=$1
+  local fs=$2
 
-  tmpformat="${device}:${fs}"
+  local tmpformat="${device}:${fs}"
   if [ -n "${format}" ]; then
     format="${format} ${tmpformat}"
   else
@@ -30,12 +30,12 @@ format() {
 }
 
 mountfs() {
-  device=$1
-  type=$2
-  mountpoint=$3
-  mounopts=$4
+  local device=$1
+  local type=$2
+  local mountpoint=$3
+  local mounopts=$4
 
-  tmpmount="${device}:${type}:${mountpoint}:${mountopts}"
+  local tmpmount="${device}:${type}:${mountpoint}:${mountopts}"
   if [ -n "${localmounts}" ]; then
     localmounts="${localmounts} ${tmpmount}"
   else
@@ -44,12 +44,12 @@ mountfs() {
 }
 
 netmount() {
-  export=$1
-  type=$2
-  mountpoint=$3
-  mountopts=$4
+  local export=$1
+  local type=$2
+  local mountpoint=$3
+  local mountopts=$4
 
-  tmpnetmount="${exoirt}|${type}|${mountpoint}|${mountopts}"
+  local tmpnetmount="${exoirt}|${type}|${mountpoint}|${mountopts}"
   if [ -n "${netmounts}" ]; then
     netmounts="${netmounts} ${tmpnetmount}"
   else
@@ -82,14 +82,14 @@ rootpw_crypt() {
 }
 
 stage_uri() {
-  uri=$1
+  local uri=$1
 
   stage_uri="${uri}"
 }
 
 tree_type() {
-  type=$1
-  uri=$2
+  local type=$1
+  local uri=$2
 
   tree_type="${type}"
   portage_snapshot_uri="${uri}"

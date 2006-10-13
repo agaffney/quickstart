@@ -10,8 +10,8 @@ NORMAL=$'\e[0m'
 logfile=/tmp/install.log
 
 debug() {
-  func=$1
-  msg=$2
+  local func=$1
+  local msg=$2
 
   if [ "${debug}" = "1" ]; then
     echo "${func}(): ${msg}" >&2
@@ -20,21 +20,21 @@ debug() {
 }
 
 notify() {
-  msg=$1
+  local msg=$1
 
   [ $quiet = 0 ] && echo " ${GOOD}*${NORMAL} ${msg}"
   log "${msg}"
 }
 
 error() {
-  msg=$1
+  local msg=$1
 
   echo " ${BAD}*${NORMAL} ${msg}" >&2
   log "Error: ${msg}"
 }
 
 die() {
-  msg=$1
+  local msg=$1
 
   error "${msg}"
   runstep failure_cleanup "Cleaning up after install failure"
@@ -42,14 +42,14 @@ die() {
 }
 
 warn() {
-  msg=$1
+  local msg=$1
   
   [ $quiet = 0 ] && echo " ${WARN}*${NORMAL} ${msg}" >&2
   log "Warning: ${msg}"
 }
 
 log() {
-  msg=$1
+  local msg=$1
 
   if [ -n "${logfile}" ]; then
     echo "$(date): ${msg}" >> ${logfile}

@@ -1,22 +1,22 @@
 # $Id$
 
 get_filename_from_uri() {
-  uri=$1
+  local uri=$1
 
   basename "${1}"
 }
 
 get_protocol_from_uri() {
-  uri=$1
+  local uri=$1
 
   echo "${uri}" | sed -e 's|://.\+$||'
 }
 
 fetch() {
-  uri=$1
-  localfile=$2
+  local uri=$1
+  local localfile=$2
 
-  protocol=$(get_protocol_from_uri "${uri}")
+  local protocol=$(get_protocol_from_uri "${uri}")
   debug fetch "protocol is ${protocol}"
   if $(isafunc "fetch_${protocol}"); then
     fetch_${protocol} "${1}" "${2}"
@@ -42,8 +42,8 @@ fetch_ftp() {
 }
 
 fetch_http_https_ftp() {
-  uri=$1
-  localfile=$2
+  local uri=$1
+  local localfile=$2
 
   debug fetch_http "Fetching URL ${uri} to ${2}"
   spawn "wget -O ${localfile} ${uri}" || die "could not fetch ${uri}"
@@ -51,10 +51,10 @@ fetch_http_https_ftp() {
 }
 
 fetch_file() {
-  uri=$1
-  localfile=$2
+  local uri=$1
+  local localfile=$2
 
-  uri=$(echo "${uri}" | sed -e 's|^file://||')
+  local uri=$(echo "${uri}" | sed -e 's|^file://||')
   debug fetch_file "Copying local file ${uri} to ${localfile}"
   cp "${uri}" "${localfile}"
 }

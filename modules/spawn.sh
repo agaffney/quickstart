@@ -4,7 +4,7 @@ chroot_dir=/mnt/gentoo
 output_logfile=/tmp/installoutput.log
 
 spawn() {
-  cmd=$1
+  local cmd=$1
 
   debug spawn "running command '${cmd}'"
   rm ${output_logfile}.cur 2>/dev/null
@@ -18,7 +18,7 @@ spawn() {
 }
 
 spawn_chroot() {
-  cmd=$1
+  local cmd=$1
 
   debug spawn_chroot "wrapping command '${cmd}' in chroot script"
   echo -e '#!/bin/bash -l\n'${cmd}'\nexit $?' > ${chroot_dir}/var/tmp/spawn.sh

@@ -1,7 +1,7 @@
 # $Id$
 
 isafunc() {
-  func=$1
+  local func=$1
 
   if [ -n "$(type ${func} 2>/dev/null | grep "function")" ]; then
     return 0
@@ -11,8 +11,8 @@ isafunc() {
 }
 
 runstep() {
-  func=$1
-  descr=$2
+  local func=$1
+  local descr=$2
 
   notify "${descr}"
   if $(isafunc pre_${func}); then
