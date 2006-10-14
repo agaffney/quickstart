@@ -15,18 +15,19 @@ run_pre_install_script() {
 
 partition() {
   for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
-    debug mount_local_partitions "device is ${device}"
+    debug partition "device is ${device}"
 #    spawn "dd if=/dev/zero of=/dev/${device} bs=512 count=1" || warn "could not clear existing partition table"
     rm /tmp/install.partitions 2>/dev/null
     rm /tmp/install.format 2>/dev/null
     local device_temp="partitions_${device}"
     local device="/dev/${device}"
-    for partition in $(eval echo \${partitions_${device}}); do
+    for partition in $(eval echo \${${device_temp}}); do
+      debug partition "partition is ${partition}"
       local minor=$(echo ${partition} | cut -d: -f1)
       local type=$(echo ${partition} | cut -d: -f2)
       local size=$(echo ${partition} | cut -d: -f3)
       local devnode="${device}${minor}"
-      debug mount_local_partitions "devnode is ${devnode}"
+      debug partition "devnode is ${devnode}"
       if [ "${size}" = "+" ]; then
         size=""
       else
@@ -81,6 +82,7 @@ mount_local_partitions() {
   else
     rm /tmp/install.mounts 2>/dev/null
     for mount in ${localmounts}; do
+      debug mount_local_partitions "mount is ${mount}"
       local devnode=$(echo ${mount} | cut -d '|' -f1)
       local type=$(echo ${mount} | cut -d '|' -f2)
       local mountpoint=$(echo ${mount} | cut -d '|' -f3)
