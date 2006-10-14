@@ -83,10 +83,10 @@ mount_local_partitions() {
     rm /tmp/install.mounts 2>/dev/null
     for mount in ${localmounts}; do
       debug mount_local_partitions "mount is ${mount}"
-      local devnode=$(echo ${mount} | cut -d '|' -f1)
-      local type=$(echo ${mount} | cut -d '|' -f2)
-      local mountpoint=$(echo ${mount} | cut -d '|' -f3)
-      local mountopts=$(echo ${mount} | cut -d '|' -f4)
+      local devnode=$(echo ${mount} | cut -d ':' -f1)
+      local type=$(echo ${mount} | cut -d ':' -f2)
+      local mountpoint=$(echo ${mount} | cut -d ':' -f3)
+      local mountopts=$(echo ${mount} | cut -d ':' -f4)
       [ -n "${type}" ] && type="-t ${type}"
       [ -n "${mountopts}" ] && mountopts="-o ${mountopts}"
       case "${type}" in
