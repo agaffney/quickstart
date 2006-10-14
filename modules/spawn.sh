@@ -11,7 +11,7 @@ spawn() {
   if [ ${verbose} = 1 ]; then
     (eval "${cmd}" 2>&1; spawn_exitcode=$?) | tee -a ${output_logfile} ${output_logfile}.cur
   else
-    (eval "${cmd}" 2>&1; spawn_exitcode=$?) | tee -a ${output_logfile} ${output_logfile}.cur &>/dev/null
+    (eval "${cmd}" 2>&1; spawn_exitcode=$?) | tee -a ${output_logfile} ${output_logfile}.cur >/dev/null 2>&1
   fi
 
   return ${spawn_exitcode}

@@ -12,14 +12,14 @@ quiet=0
 sanitycheck=0
 
 # Includes
-source modules/output.sh
-source modules/misc.sh
-source modules/spawn.sh
-source modules/fetcher.sh
-source modules/portage.sh
-source modules/install_steps.sh
-source modules/config.sh
-source modules/stepcontrol.sh
+. modules/output.sh
+. modules/misc.sh
+. modules/spawn.sh
+. modules/fetcher.sh
+. modules/portage.sh
+. modules/install_steps.sh
+. modules/config.sh
+. modules/stepcontrol.sh
 
 usage() {
   msg=$1
@@ -97,7 +97,7 @@ fi
 if [ ! -f "${profile}" ]; then
   die "Specified profile does not exist!"
 else
-  source "${profile}"
+  . "${profile}"
   runstep sanity_check_config "Sanity checking config"
   if [ "${sanitycheck}" = "1" ]; then
     debug main "Exiting due to --sanity-check"
