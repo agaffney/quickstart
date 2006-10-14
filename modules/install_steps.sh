@@ -87,14 +87,14 @@ mount_local_partitions() {
       local type=$(echo ${mount} | cut -d ':' -f2)
       local mountpoint=$(echo ${mount} | cut -d ':' -f3)
       local mountopts=$(echo ${mount} | cut -d ':' -f4)
-      [ -n "${type}" ] && type="-t ${type}"
+#      [ -n "${type}" ] && type="-t ${type}"
       [ -n "${mountopts}" ] && mountopts="-o ${mountopts}"
       case "${type}" in
         swap)
           spawn "swapon ${devnode}" || warn "could not activate swap ${devnode}"
           ;;
         ext2|ext3)
-          echo "mount ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mounts
+          echo "mount -t ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mounts
           ;;
       esac
     done
