@@ -17,6 +17,7 @@ sanitycheck=0
 . modules/spawn.sh
 . modules/fetcher.sh
 . modules/portage.sh
+. modules/bootloader.sh
 . modules/install_steps.sh
 . modules/config.sh
 . modules/stepcontrol.sh
