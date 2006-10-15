@@ -21,7 +21,7 @@ get_kernel_and_initrd() {
     if [ -e "${chroot_dir}/boot/$(echo ${kernel} | sed -e 's:kernel-:initrd-:')" ]; then
       local initrd="$(echo ${kernel} | sed -e 's:kernel-:initrd-:')"
     elif [ -e "${chroot_dir}/boot/$(echo ${kernel} | sed -e 's:kernel-:initramfs-:')" ]; then
-      local initrd="$(echo ${kernel} | sed -e 's:kernel-:initrd-:')"
+      local initrd="$(echo ${kernel} | sed -e 's:kernel-:initramfs-:')"
     fi
     if [ -n "${kernels}" ]; then
       kernels="${kernels} ${kernel}|${initrd}"
