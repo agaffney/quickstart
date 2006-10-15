@@ -7,7 +7,7 @@ map_device_to_grub_device() {
     debug map_device_to_grub_device "device.map doesn't exist...creating"
     spawn_chroot "echo quit | /sbin/grub --batch --no-floppy --device-map=/boot/grub/device.map" || die "could not create grub device map"
   fi
-  local grub_device="$(grep "${device}\$" /boot/grub/device.map | awk '{ print $1; }')"
+  local grub_device="$(grep "${device}\$" /boot/grub/device.map | awk '{ print $1; }' | sed -e 's:[()]::g')"
   if [ -z "${grub_device}" ]; then
     die "could not get grub device for ${device}"
   fi
@@ -31,3 +31,15 @@ get_kernel_and_initrd() {
   echo "${kernels}"
 }
 
+get_boot_and_root() {
+  for mount in ${localmounts}; do
+    local devnode=$(echo ${mount} | cut -d ':' -f1)
+    local mountpoint=$(echo ${mount} | cut -d ':' -f3)
+    if [ "${mountpoint}" = "/" ]; then
+      local root="${devnode}"
+    elif [ "${mountpoint}" = "/boot" -o "${mountpoint}" = "/boot/" ]; then
+      local boot="${devnode}"
+    fi
+  done
+  echo "${boot}|${root}"
+}
