@@ -213,7 +213,24 @@ install_bootloader() {
 }
 
 configure_bootloader() {
-  warn "configuring bootloader not implemented"
+  echo -e "default 0\ntimeout 30\n" > ${chroot_dir}/boot/grub/grub.conf
+  local boot_root="$(get_boot_and_root)"
+  local boot="$(echo ${boot_root} | cut -d '|' -f1)"
+  local root="$(echo ${boot_root} | cut -d '|' -f2)"
+  local kernel_initrd="$(get_kernel_and_initrd)"
+  for k in ${kernel_initrd}; do
+    local kernel="$(echo ${k} | cut -d '|' -f1)"
+    local initrd="$(echo ${k} | cut -d '|' -f2)"
+    local kv="$(echo ${kernel} | sed -e 's:^.\+/kernel-:')"
+    echo "title=Gentoo Linux ${kv}" >> ${chroot_dir}/boot/grub/grub.conf
+    echo -en "root ($(map_device_to_grub_device ${boot}))\nkernel /boot/${kernel} " >> ${chroot_dir}/boot/grub/grub.conf
+    if [ -z "${initrd}" ]; then
+      echo "root=${root}" >> ${chroot_dir}/boot/grub/grub.conf
+    else
+      echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root}" >> ${chroot_dir}/boot/grub/grub.conf
+      echo -e "initrd /boot/${initrd}\n" >> ${chroot_dir}/boot/grub/grub.conf
+    fi
+  done
 }
 
 install_extra_packages() {

@@ -17,10 +17,11 @@ map_device_to_grub_device() {
 get_kernel_and_initrd() {
   local kernels=""
   for kernel in ${chroot_dir}/boot/kernel-*; do
-    if [ -e "$(echo ${kernel} | sed -e 's:/kernel-:/initrd-:')" ]; then
-      local initrd="$(echo ${kernel} | sed -e 's:/kernel-:/initrd-:')"
-    elif [ -e "$(echo ${kernel} | sed -e 's:/kernel-:/initramfs-:')" ]; then
-      local initrd="$(echo ${kernel} | sed -e 's:/kernel-:/initrd-:')"
+    kernel="$(echo ${kernel} | sed -e 's:^.\+/kernel-:kernel-:')"
+    if [ -e "${chroot_dir}/boot/$(echo ${kernel} | sed -e 's:kernel-:initrd-:')" ]; then
+      local initrd="$(echo ${kernel} | sed -e 's:kernel-:initrd-:')"
+    elif [ -e "${chroot_dir}/boot/$(echo ${kernel} | sed -e 's:kernel-:initramfs-:')" ]; then
+      local initrd="$(echo ${kernel} | sed -e 's:kernel-:initrd-:')"
     fi
     if [ -n "${kernels}" ]; then
       kernels="${kernels} ${kernel}|${initrd}"
@@ -41,5 +42,8 @@ get_boot_and_root() {
       local boot="${devnode}"
     fi
   done
+  if [ -z "${boot}" ]; then
+    local boot="${root}"
+  fi
   echo "${boot}|${root}"
 }
