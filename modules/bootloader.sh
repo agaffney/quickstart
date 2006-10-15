@@ -7,7 +7,7 @@ map_device_to_grub_device() {
     debug map_device_to_grub_device "device.map doesn't exist...creating"
     spawn_chroot "echo quit | /sbin/grub --batch --no-floppy --device-map=/boot/grub/device.map" || die "could not create grub device map"
   fi
-  local grub_device="$(grep "${device}\$" /boot/grub/device.map | awk '{ print $1; }' | sed -e 's:[()]::g')"
+  local grub_device="$(grep "${device}\$" ${chroot_dir}/boot/grub/device.map | awk '{ print $1; }' | sed -e 's:[()]::g')"
   if [ -z "${grub_device}" ]; then
     die "could not get grub device for ${device}"
   fi

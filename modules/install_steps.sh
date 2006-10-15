@@ -223,7 +223,7 @@ configure_bootloader() {
   for k in ${kernel_initrd}; do
     local kernel="$(echo ${k} | cut -d '|' -f1)"
     local initrd="$(echo ${k} | cut -d '|' -f2)"
-    local kv="$(echo ${kernel} | sed -e 's:^.\+/kernel-:')"
+    local kv="$(echo ${kernel} | sed -e 's:^.\+/kernel-::')"
     echo "title=Gentoo Linux ${kv}" >> ${chroot_dir}/boot/grub/grub.conf
     echo -en "root ($(map_device_to_grub_device ${boot_device}),$(expr ${boot_minor) - 1))\nkernel /boot/${kernel} " >> ${chroot_dir}/boot/grub/grub.conf
     if [ -z "${initrd}" ]; then
