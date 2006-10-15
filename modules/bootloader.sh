@@ -47,3 +47,16 @@ get_boot_and_root() {
   fi
   echo "${boot}|${root}"
 }
+
+get_device_from_devnode() {
+  local devnode=$1
+
+#  echo ${devnode} | sed -e 's:\(/[a-z]\+\)[0-9]\+$:\1:' -e 's:\(/[a-z]\+[0-9]\+\)p[0-9]\+$:\1:'
+  echo ${devnode} | sed -e 's:p\?[0-9]\+$::'
+}
+
+get_device_and_partition_from_devnode() {
+  local devnode=$1
+
+  echo ${devnode} | sed -e 's:p\?\([0-9]\+\)$:|\1:'
+}

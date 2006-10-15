@@ -216,6 +216,8 @@ configure_bootloader() {
   echo -e "default 0\ntimeout 30\n" > ${chroot_dir}/boot/grub/grub.conf
   local boot_root="$(get_boot_and_root)"
   local boot="$(echo ${boot_root} | cut -d '|' -f1)"
+  local boot_device="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f1)"
+  local boot_minor="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f2)"
   local root="$(echo ${boot_root} | cut -d '|' -f2)"
   local kernel_initrd="$(get_kernel_and_initrd)"
   for k in ${kernel_initrd}; do
@@ -223,7 +225,7 @@ configure_bootloader() {
     local initrd="$(echo ${k} | cut -d '|' -f2)"
     local kv="$(echo ${kernel} | sed -e 's:^.\+/kernel-:')"
     echo "title=Gentoo Linux ${kv}" >> ${chroot_dir}/boot/grub/grub.conf
-    echo -en "root ($(map_device_to_grub_device ${boot}))\nkernel /boot/${kernel} " >> ${chroot_dir}/boot/grub/grub.conf
+    echo -en "root ($(map_device_to_grub_device ${boot_device}),$(expr ${boot_minor) - 1))\nkernel /boot/${kernel} " >> ${chroot_dir}/boot/grub/grub.conf
     if [ -z "${initrd}" ]; then
       echo "root=${root}" >> ${chroot_dir}/boot/grub/grub.conf
     else
