@@ -233,6 +233,9 @@ configure_bootloader() {
       echo -e "initrd /boot/${initrd}\n" >> ${chroot_dir}/boot/grub/grub.conf
     fi
   done
+  spawn_chroot "grep -v rootfs /proc/mounts > /etc/mtab" || die "could not copy /proc/mounts to /etc/mtab"
+  [ -z "${grub_install_device}" ] && grub_install_device="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f1)"
+  spawn_chroot "grub-install ${grub_install_device}" || die "could not install grub to ${grub_install_device}"
 }
 
 install_extra_packages() {

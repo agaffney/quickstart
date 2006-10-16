@@ -95,6 +95,12 @@ tree_type() {
   portage_snapshot_uri="${uri}"
 }
 
+grub_install_device() {
+  local device=$1
+
+  grub_install_device="${device}"
+}
+
 sanity_check_config() {
   local fatal=0
 
