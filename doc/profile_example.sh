@@ -17,7 +17,7 @@ mountfs /dev/hda1 ext2 /boot
 mountfs /dev/hda2 swap
 mountfs /dev/hda3 ext3 / noatime
 
-netmount 192.168.0.12:/usr/portage nfs /usr/portage ro
+#netmount 192.168.0.12:/usr/portage nfs /usr/portage ro
 
 post_install_portage_tree() {
   cat > ${chroot_dir}/etc/make.conf <<EOF
