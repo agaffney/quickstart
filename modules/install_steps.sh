@@ -239,7 +239,11 @@ configure_bootloader() {
 }
 
 install_extra_packages() {
-  spawn_chroot "emerge ${extra_packages}" || die "could not emerge extra packages"
+  if [ -z "${extra_packages}" ]; then
+    debug install_extra_packages "no extra packages specified"
+  else
+    spawn_chroot "emerge ${extra_packages}" || die "could not emerge extra packages"
+  fi
 }
 
 run_post_install_script() {
