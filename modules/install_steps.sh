@@ -200,6 +200,26 @@ install_cron_daemon() {
   fi
 }
 
+setup_fstab() {
+  echo -e "none\t/proc\tproc\tdefaults\t0 0\nnone\t/dev/shm\ttmpfs\tdefaults\t0 0" > ${chroot_dir}/etc/fstab
+  for mount in ${localmounts}; do
+    debug setup_fstab "mount is ${mount}"
+    local devnode=$(echo ${mount} | cut -d ':' -f1)
+    local type=$(echo ${mount} | cut -d ':' -f2)
+    local mountpoint=$(echo ${mount} | cut -d ':' -f3)
+    local mountopts=$(echo ${mount} | cut -d ':' -f4)
+    local dump_pass=""
+    if [ "${mountpoint}" == "/" ]; then
+      dump_pass="0 1"
+    elif [ "${mountpoint}" == "/boot" -o "${mountpoint}" == "/boot/" ];
+      dump_pass="1 2"
+    else
+      dump_pass="0 0"
+    fi
+    echo -e "${devnode}\t${mountpoint}\t${type}\t${mountopts}\t${dump_pass}" >> ${chroot_dir}/etc/fstab
+  done
+}
+
 setup_network_post() {
   warn "Post-install networking setup not implemented"
 }
