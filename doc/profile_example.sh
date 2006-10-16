@@ -1,7 +1,7 @@
 # $Id$
 
-stage_uri http://agaffney.org/stage3-i686-2006.1.tar.bz2
-tree_type snapshot http://agaffney.org/portage-20061005.tar.bz2
+stage_uri http://192.168.0.12/stage3-i686-2006.1.tar.bz2
+tree_type snapshot http://192.168.0.12/portage-20061005.tar.bz2
 rootpw password
 bootloader grub
 
