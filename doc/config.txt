@@ -12,8 +12,10 @@ part - Creates a partition
     drive - the drive to add this partition (such as hda, sdb, etc.)
     minor - the partition number. these should be in order
     type  - the partition type used in fdisk (such as 82 or 83)
-    size  - the size of the partition in MB (number only), or '+' for
-            remaining (this should only be used for the last partition)
+    size  - the size of the partition (such as 32MB or 15GB, whole numbers
+            only), '+' for remaining space, or 'n%' for percentage of remaining
+            (these should only be used after all specific partition sizes are
+            specified)
 
 
 mdraid - Creates a md raid array

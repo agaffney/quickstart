@@ -20,7 +20,7 @@ partition() {
     rm /tmp/install.partitions 2>/dev/null
     rm /tmp/install.format 2>/dev/null
     local device_temp="partitions_${device}"
-    local size="$(get_device_size_in_mb ${device})"
+    local device_size="$(get_device_size_in_mb ${device})"
     local device="/dev/${device}"
     for partition in $(eval echo \${${device_temp}}); do
       debug partition "partition is ${partition}"
@@ -31,9 +31,16 @@ partition() {
       debug partition "devnode is ${devnode}"
       if [ "${size}" = "+" ]; then
         size=""
-      else
-        size=$(expr ${size} \* 2048)
+      elif [ -n "$(echo ${size} | grep '%$')" ]; then
+        size="$(expr ${device_size} \* 0.$(echo ${size} | sed -e 's:%$::'))"
+      elif [ -n "$(echo ${size} | grep -i 'MB?$')" ]; then
+        size="$(echo ${size} | sed -e 's:MB?$::i')"
+        device_size="$(expr ${device_size} - ${size})"
+      elif [ -n "$(echo ${size} | grep -i 'GB?$')" ]; then
+        size="$(expr $(echo ${size} | sed -e 's:GB?$::i') \* 1024)"
+        device_size="$(expr ${device_size} - ${size})"
       fi
+      size=$(expr ${size} \* 2048) #sectors
       echo ",${size},${type}" >> /tmp/install.partitions
     done
     spawn "sfdisk --force -uS ${device} < /tmp/install.partitions" || die "could not partition ${device}"
