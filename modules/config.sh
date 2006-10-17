@@ -70,6 +70,12 @@ logger() {
   logging_daemon="${pkg}"
 }
 
+cron() {
+  local pkg=$1
+
+  cron_daemon="${pkg}"
+}
+
 rootpw() {
   local pass=$1
 
@@ -96,10 +102,50 @@ tree_type() {
   portage_snapshot_uri="${uri}"
 }
 
-grub_install_device() {
+bootloader_install_device() {
   local device=$1
 
-  grub_install_device="${device}"
+  bootloader_install_device="${device}"
+}
+
+chroot_dir() {
+  local dir=$1
+
+  chroot_dir="${dir}"
+}
+
+extra_packages() {
+  local pkg=$1
+
+  if [ -n "${extra_packages}" ]; then
+    extra_packages="${extra_packages} ${pkg}"
+  else
+    extra_packages="${pkg}"
+  fi
+}
+
+genkernel_opts() {
+  local opts=$1
+
+  genkernel_opts="${opts}"
+}
+
+kernel_config_uri() {
+  local uri=$1
+
+  kernel_config_uri="${uri}"
+}
+
+kernel_sources() {
+  local pkg=$1
+
+  kernel_sources="${pkg}"
+}
+
+timezone() {
+  local tz=$1
+
+  timezone="${tz}"
 }
 
 sanity_check_config() {
