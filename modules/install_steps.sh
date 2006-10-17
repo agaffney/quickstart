@@ -20,6 +20,7 @@ partition() {
     rm /tmp/install.partitions 2>/dev/null
     rm /tmp/install.format 2>/dev/null
     local device_temp="partitions_${device}"
+    local size="$(get_device_size_in_mb ${device})"
     local device="/dev/${device}"
     for partition in $(eval echo \${${device_temp}}); do
       debug partition "partition is ${partition}"
