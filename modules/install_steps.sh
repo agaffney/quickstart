@@ -208,13 +208,12 @@ setup_fstab() {
     local type=$(echo ${mount} | cut -d ':' -f2)
     local mountpoint=$(echo ${mount} | cut -d ':' -f3)
     local mountopts=$(echo ${mount} | cut -d ':' -f4)
-    local dump_pass=""
     if [ "${mountpoint}" == "/" ]; then
-      dump_pass="0 1"
-    elif [ "${mountpoint}" == "/boot" -o "${mountpoint}" == "/boot/" ];
-      dump_pass="1 2"
+      local dump_pass="0 1"
+    elif [ "${mountpoint}" == "/boot" -o "${mountpoint}" == "/boot/" ]; then
+      local dump_pass="1 2"
     else
-      dump_pass="0 0"
+      local dump_pass="0 0"
     fi
     echo -e "${devnode}\t${mountpoint}\t${type}\t${mountopts}\t${dump_pass}" >> ${chroot_dir}/etc/fstab
   done

@@ -43,6 +43,7 @@ mountfs() {
   local mountopts=$4
 
   [ -z "${mountopts}" ] && mountopts="defaults"
+  [ -z "${mountpoint}" ] && mountpoint="none"
   local tmpmount="${device}:${type}:${mountpoint}:${mountopts}"
   if [ -n "${localmounts}" ]; then
     localmounts="${localmounts} ${tmpmount}"
