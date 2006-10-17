@@ -17,6 +17,13 @@ part() {
   debug part "${drive_temp} is now: $(eval echo \${${drive_temp}})"
 }
 
+mdraid() {
+  local array=$1
+  local arrayopts=$2
+
+  eval mdraid_${array}="${arrayopts}"
+}
+
 format() {
   local device=$1
   local fs=$2
