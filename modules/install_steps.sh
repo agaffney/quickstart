@@ -217,6 +217,13 @@ setup_fstab() {
     fi
     echo -e "${devnode}\t${mountpoint}\t${type}\t${mountopts}\t${dump_pass}" >> ${chroot_dir}/etc/fstab
   done
+  for mount in ${netmounts}; do
+    local export=$(echo ${mount} | cut -d '|' -f1)
+    local type=$(echo ${mount} | cut -d '|' -f2)
+    local mountpoint=$(echo ${mount} | cut -d '|' -f3)
+    local mountopts=$(echo ${mount} | cut -d '|' -f4)
+    echo -e "${export}\t${mountpoint}\t${type}\t${mountopts}\t0 0" >> ${chroot_dir}/etc/fstab
+  done
 }
 
 setup_network_post() {

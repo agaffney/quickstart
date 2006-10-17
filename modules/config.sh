@@ -58,6 +58,7 @@ netmount() {
   local mountpoint=$3
   local mountopts=$4
 
+  [ -z "${mountopts}" ] && mountopts="defaults"
   local tmpnetmount="${export}|${type}|${mountpoint}|${mountopts}"
   if [ -n "${netmounts}" ]; then
     netmounts="${netmounts} ${tmpnetmount}"
