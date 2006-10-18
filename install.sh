@@ -5,7 +5,6 @@
 VERSION=foon
 
 # Options vars
-pretend=0
 debug=0
 verbose=0
 quiet=0
@@ -31,17 +30,19 @@ usage() {
   fi
   cat <<EOF
 Usage:
-  install.sh [-h|--help] [-p|--pretend] [-d|--debug] [-v|--verbose] [--version]
-             [-q|--quiet] [-s|--sanity-check]
+  install.sh [-h|--help] [-d|--debug] [-v|--verbose] [-q|--quiet]
+             [-s|--sanity-check] [--version] <profile>
 
 Options:
   -h|--help            Show this message and quit
-  -p|--pretend         Don't actually perform any actions
   -d|--debug           Output debugging messages
   -q|--quiet           Only output fatal error messages
   -v|--verbose         Be verbose (show external command output)
   -s|--sanity-check    Sanity check install profile and exit
   --version            Print version and exit
+
+Arguments:
+  profile              Path to an install profile
 EOF
 }
 
@@ -54,9 +55,6 @@ do
     -h|--help)
       usage
       exit 0
-      ;;
-    -p|--pretend)
-      pretend=1
       ;;
     -s|--sanity-check)
       sanitycheck=1
