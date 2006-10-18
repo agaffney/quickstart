@@ -26,7 +26,7 @@ mdraid - Creates a md raid array
   Parameters:
     array     - name of the array (such as md0, md1, etc.)
     arrayopts - arguments to 'mdadm' after '--create /dev/mdX' (such as
-                '-l 1 -n2 /dev/sda2 /dev/sdb2'
+                '-l 1 -n 2 /dev/sda2 /dev/sdb2'
 
 
 format - Formats a partition
