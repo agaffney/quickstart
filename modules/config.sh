@@ -124,7 +124,7 @@ chroot_dir() {
 }
 
 extra_packages() {
-  local pkg=$1
+  local pkg=$@
 
   if [ -n "${extra_packages}" ]; then
     extra_packages="${extra_packages} ${pkg}"
@@ -134,7 +134,7 @@ extra_packages() {
 }
 
 genkernel_opts() {
-  local opts=$1
+  local opts=$@
 
   genkernel_opts="${opts}"
 }
