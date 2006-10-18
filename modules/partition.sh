@@ -16,7 +16,7 @@ human_size_to_mb() {
     size=""
     device_size=0
   else
-    local number_suffix="$(echo ${size} | sed -e 's:^\.[0-9]\+::' -e 's:\([0-9]\+\)\([MG%]\)B?:\1|\2:i')"
+    local number_suffix="$(echo ${size} | sed -e 's:\.[0-9]\+::' -e 's:\([0-9]\+\)\([MG%]\)B\?:\1|\2:i')"
     local number="$(echo ${number_suffix} | cut -d '|' -f1)"
     local suffix="$(echo ${number_suffix} | cut -d '|' -f2)"
     debug human_size_to_mb "number_suffix='${number_suffix}', number=${number}, suffix=${suffix}"

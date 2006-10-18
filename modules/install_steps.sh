@@ -32,7 +32,7 @@ partition() {
       size_devicesize="$(human_size_to_mb ${size} ${device_size})"
       newsize="$(echo ${size_devicesize} | cut -d '|' -f1)"
       [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
-      device_size="$(echo ${size_devicesize} | cut -d '|' -f1)"
+      device_size="$(echo ${size_devicesize} | cut -d '|' -f2)"
       size=$(expr ${newsize} \* 2048) #sectors
       echo ",${size},${type}" >> /tmp/install.partitions
     done
