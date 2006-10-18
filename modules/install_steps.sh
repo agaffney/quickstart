@@ -29,18 +29,11 @@ partition() {
       local size=$(echo ${partition} | cut -d: -f3)
       local devnode="${device}${minor}"
       debug partition "devnode is ${devnode}"
-      if [ "${size}" = "+" ]; then
-        size=""
-      elif [ -n "$(echo ${size} | grep '%$')" ]; then
-        size="$(expr ${device_size} \* 0.$(echo ${size} | sed -e 's:%$::'))"
-      elif [ -n "$(echo ${size} | grep -i 'MB?$')" ]; then
-        size="$(echo ${size} | sed -e 's:MB?$::i')"
-        device_size="$(expr ${device_size} - ${size})"
-      elif [ -n "$(echo ${size} | grep -i 'GB?$')" ]; then
-        size="$(expr $(echo ${size} | sed -e 's:GB?$::i') \* 1024)"
-        device_size="$(expr ${device_size} - ${size})"
-      fi
-      size=$(expr ${size} \* 2048) #sectors
+      size_devicesize="$(human_size_to_mb ${size} ${device_size})"
+      newsize="$(echo ${size_devicesize} | cut -d '|' -f1)"
+      [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
+      device_size="$(echo ${size_devicesize} | cut -d '|' -f1)"
+      size=$(expr ${newsize} \* 2048) #sectors
       echo ",${size},${type}" >> /tmp/install.partitions
     done
     spawn "sfdisk --force -uS ${device} < /tmp/install.partitions" || die "could not partition ${device}"
