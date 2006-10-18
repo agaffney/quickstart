@@ -5,8 +5,8 @@ tree_type snapshot http://192.168.0.12/portage-20061005.tar.bz2
 rootpw password
 bootloader grub
 
-part hda 1 83 100
-part hda 2 82 512
+part hda 1 83 100M
+part hda 2 82 512M
 part hda 3 83 +
 
 format /dev/hda1 ext2
