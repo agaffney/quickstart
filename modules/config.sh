@@ -24,6 +24,27 @@ mdraid() {
   eval mdraid_${array}="${arrayopts}"
 }
 
+lvm_volgroup() {
+  local volgroup=$1
+  shift
+  local devices=$@
+
+  eval lvm_volgroup_${volgroup}="${devices}"
+}
+
+lvm_logvol() {
+  local volgroup=$1
+  local size=$2
+  local name=$3
+
+  local tmplogvol="${volgroup}|${size}|${name}"
+  if [ -n "${lvm_logvols}" ]; then
+    lvm_logvols="${lvm_logvols} ${tmplogvol}"
+  else
+    lvm_logvols="${tmplogvol}"
+  fi
+}
+
 format() {
   local device=$1
   local fs=$2

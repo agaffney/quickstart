@@ -52,6 +52,23 @@ setup_md_raid() {
   done
 }
 
+setup_lvm() {
+  for volgroup in $(set | grep '^lvm_volgroup_' | cut -d= -f1 | sed -e 's:^lvm_volgroup_::' | sort); do
+    local volgroup_temp="lvm_volgroup_${volgroup}"
+    local volgroup_devices="$(eval echo \${${volgroup_temp}})"
+    for device in ${volgroup_devices}; do
+      spawn "pvcreate ${device}" || die "could not run 'pvcreate' on ${device}"
+    done
+    spawn "vgcreate ${volgroup} ${volgroup_devices}" || die "could not create volume group '${volgroup}' from devices: ${volgroup_devices}"
+  done
+  for logvol in ${lvm_logvols}; do
+    local volgroup="$(echo ${logvol} | cut -d '|' -f1)"
+    local size="$(echo ${logvol} | cut -d '|' -f2)"
+    local name="$(echo ${logvol} | cut -d '|' -f3)"
+    spawn "lvcreate -L${size} -n${name} ${volgroup}" || die "could not create logical volume '${name}' with size ${size} in volume group '${volgroup}'"
+  done
+}
+
 format_devices() {
   for device in ${format}; do
     local devnode=$(echo ${device} | cut -d: -f1)
