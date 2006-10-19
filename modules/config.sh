@@ -19,9 +19,10 @@ part() {
 
 mdraid() {
   local array=$1
-  local arrayopts=$2
+  shift
+  local arrayopts=$@
 
-  eval mdraid_${array}="${arrayopts}"
+  eval "mdraid_${array}=\"${arrayopts}\""
 }
 
 lvm_volgroup() {
@@ -29,7 +30,7 @@ lvm_volgroup() {
   shift
   local devices=$@
 
-  eval lvm_volgroup_${volgroup}="${devices}"
+  eval "lvm_volgroup_${volgroup}=\"${devices}\""
 }
 
 lvm_logvol() {
