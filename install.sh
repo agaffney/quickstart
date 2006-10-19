@@ -118,6 +118,7 @@ if [ "${mode}" != "chroot" ]; then
 fi
 
 runstep setup_md_raid "Setting up RAID arrays"
+runstep setup_lvm "Setting up LVM volumes"
 runstep format_devices "Formatting devices"
 runstep mount_local_partitions "Mounting local partitions"
 runstep mount_network_shares "Mounting network shares"
