@@ -29,6 +29,27 @@ mdraid - Creates a md raid array
                 '-l 1 -n 2 /dev/sda2 /dev/sdb2'
 
 
+lvm_volgroup - Creates a LVM volume group
+
+  Usage:
+    lvm_volgroup <name> <devices>
+
+  Parameters:
+    name    - name of the volume group to create
+    devices - list of block devices to include in the volume group
+
+
+lvm_logvol - Create a LVM logical volume
+
+  Usage:
+    lvm_logvol <volgroup> <size> <name>
+
+  Parameters:
+    volgroup - name of a volume group created with 'lvm_volgroup'
+    size     - size of logical volume to pass to 'lvcreate'
+    name     - name of logical volume to pass to 'lvcreate'
+
+
 format - Formats a partition
 
   Usage:
