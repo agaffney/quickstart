@@ -179,6 +179,30 @@ timezone() {
   timezone="${tz}"
 }
 
+rcadd() {
+  local service=$1
+  local runlevel=$2
+
+  local tmprcadd="${service}|${runlevel}"
+  if [ -n "${services_add}" ]; then
+    services_add="${services_add} ${tmprcadd}"
+  else
+    services_add="${tmprcadd}"
+  fi
+}
+
+rcdel() {
+  local service=$1
+  local runlevel=$2
+
+  local tmprcdel="${service}|${runlevel}"
+  if [ -n "${services_del}" ]; then
+    services_del="${services_del} ${tmprcdel}"
+  else
+    services_del="${tmprcdel}"
+  fi
+}
+
 sanity_check_config() {
   local fatal=0
 

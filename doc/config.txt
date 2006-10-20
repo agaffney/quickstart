@@ -217,3 +217,22 @@ timezone - Specifies the timezone
   Parameters:
     tz - timezone to use (relative to /usr/share/zoneinfo/)
 
+
+rcadd - Adds the specified service to the specified runlevel
+
+  Usage:
+    rcadd <service> <runlevel>
+
+  Parameters:
+    service  - name of service to add
+    runlevel - runlevel to add service to
+
+
+rcdel - Removes the specified service from the specified runlevel
+
+  Usage:
+    rcdel <service> <runlevel>
+
+  Parameters:
+    service  - name of service to remove
+    runlevel - runlevel to remove service from (usually not required)

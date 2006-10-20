@@ -134,6 +134,7 @@ if [ "${mode}" != "stage4" ]; then
   runstep install_cron_daemon "Installing cron daemon"
   runstep setup_fstab "Setting up /etc/fstab"
   runstep setup_network_post "Setting up post-install networking"
+  runstep add_and_remove_services "Adding and removing services"
   runstep install_bootloader "Installing bootloader"
 fi
 

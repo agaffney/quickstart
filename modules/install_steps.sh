@@ -248,6 +248,23 @@ setup_network_post() {
   warn "Post-install networking setup not implemented"
 }
 
+add_and_remove_services() {
+  if [ -n "${services_add}" ]; then
+    for service_add in ${services_add}; do
+      service="$(echo ${service_add} | cut -d '|' -f1)"
+      runlevel="$(echo ${service_add} | cut -d '|' -f2)"
+      spawn_chroot "rc-update add ${service} ${runlevel}" || die "could not add service ${service} to the ${runlevel} runlevel"
+    done
+  fi
+  if [ -n "${services_del}" ]; then
+    for service_del in ${services_del}; do
+      service="$(echo ${service_del} | cut -d '|' -f1)"
+      runlevel="$(echo ${service_del} | cut -d '|' -f2)"
+      spawn_chroot "rc-update del ${service} ${runlevel}"
+    done
+  fi
+}
+
 install_bootloader() {
   if [ "${bootloader}" = "none" ]; then
     debug install_bootloader "bootloader is 'none'...skipping"
