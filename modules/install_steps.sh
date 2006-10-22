@@ -278,6 +278,16 @@ install_bootloader() {
 }
 
 configure_bootloader() {
+  if [ "${bootloader}" = "none" ]; then
+    debug configure_bootloader "bootloader is 'none'...skipping configuration"
+  elif [ "${bootloader}" = "grub" ]; then
+    configure_bootloader_grub
+  else
+    warn "I don't know how to configure ${bootloader}"
+  fi
+}
+
+configure_bootloader_grub() {
   echo -e "default 0\ntimeout 30\n" > ${chroot_dir}/boot/grub/grub.conf
   local boot_root="$(get_boot_and_root)"
   local boot="$(echo ${boot_root} | cut -d '|' -f1)"
