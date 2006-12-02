@@ -1,10 +1,5 @@
 # $Id$
 
-if [ -f "modules/bootloader_${arch}.sh" ]; then
-  debug bootloader.sh "loading arch-specific module bootloader_${arch}.sh"
-  . modules/bootloader_${arch}.sh
-fi
-
 map_device_to_grub_device() {
   local device=$1
 
@@ -61,3 +56,8 @@ get_device_and_partition_from_devnode() {
 
   echo ${devnode} | sed -e 's:p\?\([0-9]\+\)$:|\1:'
 }
+
+if [ -f "modules/bootloader_${arch}.sh" ]; then
+  debug bootloader.sh "loading arch-specific module bootloader_${arch}.sh"
+  . modules/bootloader_${arch}.sh
+fi

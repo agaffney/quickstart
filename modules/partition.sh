@@ -1,10 +1,5 @@
 # $Id$
 
-if [ -f "modules/partition_${arch}.sh" ]; then
-  debug partition.sh "loading arch-specific module partition_${arch}.sh"
-  . modules/partition_${arch}.sh
-fi
-
 get_device_size_in_mb() {
   local device=$1
 
@@ -45,3 +40,8 @@ human_size_to_mb() {
   debug human_size_to_mb "size=${size}, device_size=${device_size}"
   echo "${size}|${device_size}"
 }
+
+if [ -f "modules/partition_${arch}.sh" ]; then
+  debug partition.sh "loading arch-specific module partition_${arch}.sh"
+  . modules/partition_${arch}.sh
+fi
