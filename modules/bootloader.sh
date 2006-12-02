@@ -1,5 +1,10 @@
 # $Id$
 
+if [ -f "modules/bootloader_${arch}.sh" ]; then
+  debug bootloader.sh "loading arch-specific module bootloader_${arch}.sh"
+  . modules/bootloader_${arch}.sh
+fi
+
 map_device_to_grub_device() {
   local device=$1
 
