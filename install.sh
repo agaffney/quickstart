@@ -10,17 +10,12 @@ verbose=0
 quiet=0
 sanitycheck=0
 
-# Includes
-. modules/output.sh
-. modules/misc.sh
-. modules/spawn.sh
-. modules/fetcher.sh
-. modules/portage.sh
-. modules/bootloader.sh
-. modules/partition.sh
-. modules/install_steps.sh
-. modules/config.sh
-. modules/stepcontrol.sh
+import() {
+  module=$1
+
+  . modules/${module}.sh
+  debug import "imported module ${module}"
+}
 
 usage() {
   msg=$1
@@ -45,6 +40,18 @@ Arguments:
   profile              Path to an install profile
 EOF
 }
+
+# Import modules
+import output
+import misc
+import spawn
+import fetcher
+import portage
+import bootloader
+import partition
+import install_steps
+import config
+import stepcontrol
 
 # Parse args
 while [ ${#} -gt 0 ]

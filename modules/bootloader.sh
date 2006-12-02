@@ -61,7 +61,8 @@ sanity_check_config_bootloader() {
   debug sanity_check_config_bootloader "no arch-specific bootloader config sanity check function"
 }
 
+local arch=$(get_arch)
 if [ -f "modules/bootloader_${arch}.sh" ]; then
   debug bootloader.sh "loading arch-specific module bootloader_${arch}.sh"
-  . modules/bootloader_${arch}.sh
+  import bootloader_${arch}
 fi
