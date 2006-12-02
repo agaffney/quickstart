@@ -244,10 +244,13 @@ sanity_check_config() {
     warn "cron_daemon not set...assuming vixie-cron"
     cron_daemon="vixie-cron"
   fi
-  if [ -z "${bootloader}" ]; then
-    warn "bootloader not set...assuming grub"
-    bootloader="grub"
-  fi
+#  if [ -z "${bootloader}" ]; then
+#    warn "bootloader not set...assuming grub"
+#    bootloader="grub"
+#  fi
+
+  sanity_check_config_partition
+  sanity_check_config_bootloader
 
   debug sanity_check_config "$(set | grep '^[a-z]')"
 

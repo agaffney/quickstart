@@ -41,6 +41,10 @@ human_size_to_mb() {
   echo "${size}|${device_size}"
 }
 
+sanity_check_config_partition() {
+  debug partition_sanity_check_config_partition "no arch-specific partitioning config sanity check function"
+}
+
 if [ -f "modules/partition_${arch}.sh" ]; then
   debug partition.sh "loading arch-specific module partition_${arch}.sh"
   . modules/partition_${arch}.sh
