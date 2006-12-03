@@ -41,6 +41,15 @@ human_size_to_mb() {
   echo "${size}|${device_size}"
 }
 
+fdisk_command() {
+  local device=$1
+  local cmd=$2
+
+  debug fdisk_command "running fdisk command '${cmd}' on device ${device}"
+  spawn "echo -en '${cmd}\nw\n' | fdisk ${device}"
+  return $?
+}
+
 sanity_check_config_partition() {
   debug sanity_check_config_partition "no arch-specific partitioning config sanity check function"
 }
