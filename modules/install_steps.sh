@@ -16,12 +16,10 @@ run_pre_install_script() {
 partition() {
   for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
     debug partition "device is ${device}"
-#    spawn "dd if=/dev/zero of=/dev/${device} bs=512 count=1" || warn "could not clear existing partition table"
-    rm /tmp/install.partitions 2>/dev/null
-    rm /tmp/install.format 2>/dev/null
     local device_temp="partitions_${device}"
     local device_size="$(get_device_size_in_mb ${device})"
     local device="/dev/${device}"
+    create_disklabel || die "could not create disklabel for device ${device}"
     for partition in $(eval echo \${${device_temp}}); do
       debug partition "partition is ${partition}"
       local minor=$(echo ${partition} | cut -d: -f1)
@@ -33,10 +31,8 @@ partition() {
       newsize="$(echo ${size_devicesize} | cut -d '|' -f1)"
       [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
       device_size="$(echo ${size_devicesize} | cut -d '|' -f2)"
-      size=$(expr ${newsize} \* 2048) #sectors
-      echo ",${size},${type}" >> /tmp/install.partitions
+      add_partition ${device} ${minor} ${size} ${type} || die "could not add partition ${minor} to device ${device}"
     done
-    spawn "sfdisk --force -uS ${device} < /tmp/install.partitions" || die "could not partition ${device}"
   done
 }
 

@@ -11,6 +11,7 @@ create_disklabel() {
 
   debug create_disklabel "creating new msdos disklabel"
   fdisk_command ${device} "o"
+  return $?
 }
 
 get_num_primary() {

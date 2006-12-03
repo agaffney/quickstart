@@ -11,6 +11,7 @@ create_disklabel() {
 
   debug create_disklabel "creating new sun disklabel"
   fdisk_command ${device} "s\n0\n\n\n\n\n\n\n\n\nd\n1\nd\n2\n"
+  return $?
 }
 
 add_partition() {
