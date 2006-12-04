@@ -23,6 +23,8 @@ add_partition() {
   first_minor="${minor}\n"
   type_minor="${minor}\n"
   [ "${minor}" = "1" ] && type_minor=""
-  fdisk_command ${device} "n\n${first_minor}\n+${size}\nt\n${type_minor}${type}"
+  size="+${size}"
+  [ "${size}" = "+" ] && size=""
+  fdisk_command ${device} "n\n${first_minor}\n${size}\nt\n${type_minor}${type}"
   return $?
 }
