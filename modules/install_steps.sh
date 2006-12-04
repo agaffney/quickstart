@@ -19,7 +19,7 @@ partition() {
     local device_temp="partitions_${device}"
     local device_size="$(get_device_size_in_mb ${device})"
     local device="/dev/${device}"
-    create_disklabel || die "could not create disklabel for device ${device}"
+    create_disklabel ${device} || die "could not create disklabel for device ${device}"
     for partition in $(eval echo \${${device_temp}}); do
       debug partition "partition is ${partition}"
       local minor=$(echo ${partition} | cut -d: -f1)

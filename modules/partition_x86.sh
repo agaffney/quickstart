@@ -22,7 +22,7 @@ get_num_primary() {
   for partition in $(eval echo \${${device_temp}}); do
     debug get_num_primary "partition is ${partition}"
     local minor=$(echo ${partition} | cut -d: -f1)
-    if [ "${minor}" < "5" ]; then
+    if [ "${minor}" -lt "5" ]; then
       primary_count=$(expr ${primary_count} + 1)
       debug get_num_primary "primary_count is ${primary_count}"
     fi
@@ -36,7 +36,7 @@ add_partition() {
   local size=$3
   local type=$4
 
-  if [ "${minor}" < "5" ]; then
+  if [ "${minor}" -lt "5" ]; then
     primary_extended="p\n"
     first_minor="${minor}\n"
     [ "${minor}" = "4" ] && first_minor=""
