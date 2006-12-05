@@ -28,6 +28,6 @@ configure_bootloader_silo() {
       echo "  initrd = /${initrd}" >> ${chroot_dir}/boot/silo.conf
     fi
   done
-  spawn_chroot "/sbin/silo" || { error "could not install grub to ${bootloader_install_device}" && return 1 }
+  spawn_chroot "/sbin/silo" || { error "could not install silo" && return 1 }
 }
 

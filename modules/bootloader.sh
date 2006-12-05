@@ -12,7 +12,7 @@ map_device_to_grub_device() {
 
 get_kernel_and_initrd() {
   local kernels=""
-  for kernel in ${chroot_dir}/boot/kernel-*; do
+  for kernel in $(ls -1t --color=no ${chroot_dir}/boot/kernel-*); do
     kernel="$(echo ${kernel} | sed -e 's:^.\+/kernel-:kernel-:')"
     if [ -e "${chroot_dir}/boot/$(echo ${kernel} | sed -e 's:kernel-:initrd-:')" ]; then
       local initrd="$(echo ${kernel} | sed -e 's:kernel-:initrd-:')"
