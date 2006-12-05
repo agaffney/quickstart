@@ -10,7 +10,8 @@ create_disklabel() {
   local device=$1
 
   debug create_disklabel "creating new sun disklabel"
-  fdisk_command ${device} "s\n0\n\n\n\n\n\n\n\n\nd\n1\nd\n2\n"
+  spawn "dd if=/dev/zero of=${device} bs=512 count=1" || die "couldn't clear first block"
+  fdisk_command ${device} "0\n\n\n\n\n\n\n\n\nd\n1\nd\n2\n"
   return $?
 }
 
