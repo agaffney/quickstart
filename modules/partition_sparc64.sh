@@ -19,7 +19,7 @@ get_partition_end() {
   local device=$1
   local minor=$2
 
-  fdisk -l ${device} | grep "^${device}${minor}" | awk '{ print $3 }'
+  fdisk -l ${device} | grep "^${device}${minor}" | awk '{ if ( $2 ~ /^[0-9]+$/ ) print $3; else print $4; }'
 }
 
 add_partition() {
