@@ -15,17 +15,29 @@ create_disklabel() {
   return $?
 }
 
+get_partition_end() {
+  local device=$1
+  local minor=$2
+
+  fdisk -l ${device} | grep "^${device}${minor}" | awk '{ print $3 }'
+}
+
 add_partition() {
   local device=$1
   local minor=$2
   local size=$3
   local type=$4
 
-  first_minor="${minor}\n"
-  type_minor="${minor}\n"
-  [ "${minor}" = "1" ] && type_minor=""
+  local start
+  if [ "${minor}" = "1" ]; then
+    start=1
+  elif [ "${minor}" = "4" ]; then
+    start=$(get_partition_end ${device} 2)
+  else
+    start=$(get_partition_end ${device} $(expr ${minor} - 1))
+  fi
   size="+${size}"
   [ "${size}" = "+" ] && size=""
-  fdisk_command ${device} "n\n${first_minor}\n${size}\nt\n${type_minor}${type}"
+  fdisk_command ${device} "n\n${minor}\n${start}\n${size}\nt\n${minor}\n${type}"
   return $?
 }
