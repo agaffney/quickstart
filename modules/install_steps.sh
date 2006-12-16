@@ -17,8 +17,8 @@ partition() {
   for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
     debug partition "device is ${device}"
     local device_temp="partitions_${device}"
-    local device_size="$(get_device_size_in_mb ${device})"
     local device="/dev/${device}"
+    local device_size="$(get_device_size_in_mb ${device})"
     create_disklabel ${device} || die "could not create disklabel for device ${device}"
     for partition in $(eval echo \${${device_temp}}); do
       debug partition "partition is ${partition}"
