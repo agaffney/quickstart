@@ -278,7 +278,7 @@ configure_bootloader() {
     debug configure_bootloader "bootloader is 'none'...skipping configuration"
   else
     if $(isafunc configure_bootloader_${bootloader}); then
-      configure_bootloader_grub || die "could not configure bootloader ${bootloader}"
+      configure_bootloader_${bootloader} || die "could not configure bootloader ${bootloader}"
     else
       die "I don't know how to configure ${bootloader}"
     fi
