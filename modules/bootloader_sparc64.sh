@@ -14,7 +14,7 @@ configure_bootloader_silo() {
   local boot_minor="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f2)"
   local root="$(echo ${boot_root} | cut -d '|' -f2)"
   local kernel_initrd="$(get_kernel_and_initrd)"
-  echo -e "partition = ${boot_minor}\ntimeout 300\nroot = ${root}\n" > ${chroot_dir}/boot/silo.conf
+  echo -e "partition = ${boot_minor}\ntimeout = 300\nroot = ${root}\n" > ${chroot_dir}/boot/silo.conf
   for k in ${kernel_initrd}; do
     local kernel="$(echo ${k} | cut -d '|' -f1)"
     local initrd="$(echo ${k} | cut -d '|' -f2)"
