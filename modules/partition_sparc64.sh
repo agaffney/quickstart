@@ -30,7 +30,7 @@ add_partition() {
 
   local start
   if [ "${minor}" = "1" ]; then
-    start=1
+    start=0
   elif [ "${minor}" = "4" ]; then
     start=$(get_partition_end ${device} 2)
   else

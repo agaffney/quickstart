@@ -18,11 +18,11 @@ configure_bootloader_palo() {
   local kernel="$(echo ${kernel_initrd} | cut -d '|' -f1)"
   local initrd="$(echo ${kernel_initrd} | cut -d '|' -f2)"
   local kv="$(echo ${kernel} | sed -e 's:^kernel-genkernel-[^-]\+-::')"
-  echo -n "--commandline=${boot_minor}/${kernel} " >> ${chroot_dir}/etc/palo.conf
+  echo -n "--commandline=${boot_minor}/boot/${kernel} " >> ${chroot_dir}/etc/palo.conf
   if [ -z "${initrd}" ]; then
     echo "root=${root}" >> ${chroot_dir}/etc/palo.conf
   else
-    echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} initrd=${boot_minor}/${initrd}" >> ${chroot_dir}/etc/palo.conf
+    echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} initrd=${boot_minor}/boot/${initrd}" >> ${chroot_dir}/etc/palo.conf
   fi
   if ! spawn_chroot "/sbin/palo"; then
     error "could not install palo"
