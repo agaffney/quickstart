@@ -203,6 +203,19 @@ rcdel() {
   fi
 }
 
+net() {
+  local device=$1
+  local ipdhcp=$2
+  local gateway=$3
+
+  local tmpnet="${device}|${ipdhcp}|${gateway}"
+  if [ -n "${net_devices}" ]; then
+    net_devices="${net_devices} ${tmpnet}"
+  else
+    net_devices="${tmpnet}"
+  fi
+}
+
 sanity_check_config() {
   local fatal=0
 

@@ -245,14 +245,27 @@ setup_fstab() {
 }
 
 setup_network_post() {
-  warn "Post-install networking setup not implemented"
+  if [ -n "${net_devices}" ]; then
+    for net_device in ${net_devices}; do
+      local device="$(echo ${net_device} | cut -d '|' -f1)"
+      local ipdhcp="$(echo ${net_device} | cut -d '|' -f2)"
+      local gateway="$(echo ${net_device} | cut -d '|' -f3)"
+      if [ "${ipdhcp}" = "dhcp" ] || [ "${ipdhcp}" = "DHCP" ]; then
+        echo -n "config_${device}=( \"dhcp\" )" >> ${chroot_dir}/etc/conf.d/net
+      else
+        echo -n "config_${device}=( \"${ipdhcp}\" )\nroute_${device}=( \"default via ${gateway}\" )" >> ${chroot_dir}/etc/conf.d/net
+      fi
+      spawn_chroot "ln -s net.lo /etc/init.d/net.${device}" || die "could not create symlink for device ${device}"
+      spawn_chroot "rc-update add ${device} default" || die "could not add net.${device} to the default runlevel"
+    done
+  fi
 }
 
 add_and_remove_services() {
   if [ -n "${services_add}" ]; then
     for service_add in ${services_add}; do
-      service="$(echo ${service_add} | cut -d '|' -f1)"
-      runlevel="$(echo ${service_add} | cut -d '|' -f2)"
+      local service="$(echo ${service_add} | cut -d '|' -f1)"
+      local runlevel="$(echo ${service_add} | cut -d '|' -f2)"
       spawn_chroot "rc-update add ${service} ${runlevel}" || die "could not add service ${service} to the ${runlevel} runlevel"
     done
   fi

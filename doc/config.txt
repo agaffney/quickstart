@@ -236,3 +236,15 @@ rcdel - Removes the specified service from the specified runlevel
   Parameters:
     service  - name of service to remove
     runlevel - runlevel to remove service from (usually not required)
+
+
+net - Sets up networking
+
+  Usage:
+    net <device> <ip/dhcp> [gateway]
+
+  Parameters:
+    device  - network device (such as eth0)
+    ip/dhcp - static IP address or "dhcp"
+    gateway - gateway IP if using a static IP
+
