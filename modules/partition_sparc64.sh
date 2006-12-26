@@ -1,9 +1,16 @@
 # $Id$
 
-unset sanity_check_config_partition
-
 sanity_check_config_partition() {
-  warn "Sanity checking partition config for sparc"
+  for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
+    local device_temp="partitions_${device}"
+    for partition in $(eval echo \${${device_temp}}); do
+      local minor=$(echo ${partition} | cut -d: -f1)
+      if [ "${minor}" = "3" ]; then
+        error "you cannot define partition number 3 with a sun disklabel (taken by whole disk)"
+        return 1
+      fi
+    done
+  done
 }
 
 create_disklabel() {
