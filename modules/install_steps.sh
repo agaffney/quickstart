@@ -251,9 +251,9 @@ setup_network_post() {
       local ipdhcp="$(echo ${net_device} | cut -d '|' -f2)"
       local gateway="$(echo ${net_device} | cut -d '|' -f3)"
       if [ "${ipdhcp}" = "dhcp" ] || [ "${ipdhcp}" = "DHCP" ]; then
-        echo -n "config_${device}=( \"dhcp\" )" >> ${chroot_dir}/etc/conf.d/net
+        echo "config_${device}=( \"dhcp\" )" >> ${chroot_dir}/etc/conf.d/net
       else
-        echo -n "config_${device}=( \"${ipdhcp}\" )\nroute_${device}=( \"default via ${gateway}\" )" >> ${chroot_dir}/etc/conf.d/net
+        echo -e "config_${device}=( \"${ipdhcp}\" )\nroutes_${device}=( \"default via ${gateway}\" )" >> ${chroot_dir}/etc/conf.d/net
       fi
       if [ ! -e "${chroot_dir}/etc/init.d/net.${device}" ]; then
         spawn_chroot "ln -s net.lo /etc/init.d/net.${device}" || die "could not create symlink for device ${device}"
