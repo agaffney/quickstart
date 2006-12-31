@@ -255,8 +255,10 @@ setup_network_post() {
       else
         echo -n "config_${device}=( \"${ipdhcp}\" )\nroute_${device}=( \"default via ${gateway}\" )" >> ${chroot_dir}/etc/conf.d/net
       fi
-      spawn_chroot "ln -s net.lo /etc/init.d/net.${device}" || die "could not create symlink for device ${device}"
-      spawn_chroot "rc-update add ${device} default" || die "could not add net.${device} to the default runlevel"
+      if [ ! -e "${chroot_dir}/etc/init.d/net.${device}" ]; then
+        spawn_chroot "ln -s net.lo /etc/init.d/net.${device}" || die "could not create symlink for device ${device}"
+      fi
+      spawn_chroot "rc-update add net.${device} default" || die "could not add net.${device} to the default runlevel"
     done
   fi
 }
