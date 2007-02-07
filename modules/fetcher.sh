@@ -54,7 +54,7 @@ fetch_file() {
   local uri=$1
   local localfile=$2
 
-  local uri=$(echo "${uri}" | sed -e 's|^file://||')
-  debug fetch_file "Copying local file ${uri} to ${localfile}"
-  cp "${uri}" "${localfile}"
+  uri=$(echo "${uri}" | sed -e 's|^file://||')
+  debug fetch_file "Symlinking local file ${uri} to ${localfile}"
+  ln -s "${uri}" "${localfile}"
 }
