@@ -53,7 +53,7 @@ setup_lvm() {
     local volgroup_temp="lvm_volgroup_${volgroup}"
     local volgroup_devices="$(eval echo \${${volgroup_temp}})"
     for device in ${volgroup_devices}; do
-      spawn "pvcreate ${device}" || die "could not run 'pvcreate' on ${device}"
+      spawn "pvcreate -ffy ${device}" || die "could not run 'pvcreate' on ${device}"
     done
     spawn "vgcreate ${volgroup} ${volgroup_devices}" || die "could not create volume group '${volgroup}' from devices: ${volgroup_devices}"
   done
@@ -79,6 +79,9 @@ format_devices() {
         ;;
       ext3)
         formatcmd="mke2fs -j ${devnode}"
+        ;;
+      xfs)
+        formatcmd="mkfs.xfs ${devnode}"
         ;;
       *)
         formatcmd=""
