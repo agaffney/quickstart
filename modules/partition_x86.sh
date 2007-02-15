@@ -34,17 +34,26 @@ add_partition() {
   local size=$3
   local type=$4
 
-  if [ "${minor}" -lt "5" ]; then
+  if [ "${type}" = "extended" ]; then
+    # Extended partition
+    primary_extended="e\n"
+    first_minor="${minor}\n"
+    [ "${minor}" = "4" ] && first_minor=""
+    type_minor="${minor}\n"
+    [ "${minor}" = "1" ] && type_minor=""
+    type="5"
+    size=""
+  elif [ "${minor}" -lt "5" ]; then
     primary_extended="p\n"
     first_minor="${minor}\n"
     [ "${minor}" = "4" ] && first_minor=""
     type_minor="${minor}\n"
     [ "${minor}" = "1" ] && type_minor=""
   else
-    # Extended partitions
+    # Logical partitions
     first_minor="${minor}\n"
     type_minor="${minor}\n"
-    primary_extended="e\n"
+    primary_extended="l\n"
     [ "$(get_num_primary ${device})" > "3" ] && primary_extended=""
   fi
   size="+${size}"
