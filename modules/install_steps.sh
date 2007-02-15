@@ -27,11 +27,15 @@ partition() {
       local size=$(echo ${partition} | cut -d: -f3)
       local devnode="${device}${minor}"
       debug partition "devnode is ${devnode}"
-      size_devicesize="$(human_size_to_mb ${size} ${device_size})"
-      newsize="$(echo ${size_devicesize} | cut -d '|' -f1)"
-      [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
-      device_size="$(echo ${size_devicesize} | cut -d '|' -f2)"
-      add_partition ${device} ${minor} ${size} ${type} || die "could not add partition ${minor} to device ${device}"
+      if [ "${type}" = "extended" ]; then
+        newsize="${device_size}"
+      else
+        size_devicesize="$(human_size_to_mb ${size} ${device_size})"
+        newsize="$(echo ${size_devicesize} | cut -d '|' -f1)"
+        [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
+        device_size="$(echo ${size_devicesize} | cut -d '|' -f2)"
+      fi
+      add_partition ${device} ${minor} ${newsize} ${type} || die "could not add partition ${minor} to device ${device}"
     done
   done
 }
