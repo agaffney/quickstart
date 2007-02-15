@@ -83,6 +83,9 @@ format_devices() {
       xfs)
         formatcmd="mkfs.xfs ${devnode}"
         ;;
+      reiserfs|reiserfs3)
+        formatcmd="mkreiserfs ${devnode}"
+        ;;
       *)
         formatcmd=""
         warn "don't know how to format ${devnode} as ${fs}"
