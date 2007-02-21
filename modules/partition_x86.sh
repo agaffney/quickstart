@@ -56,8 +56,7 @@ add_partition() {
     primary_extended="l\n"
     [ "$(get_num_primary ${device})" > "3" ] && primary_extended=""
   fi
-  size="+${size}"
-  [ "${size}" = "+" ] && size=""
+  [ -n "${size}" ] && size="+${size}M"
   fdisk_command ${device} "n\n${primary_extended}${first_minor}\n${size}\nt\n${type_minor}${type}\n"
   return $?
 }

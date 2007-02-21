@@ -35,7 +35,7 @@ partition() {
         [ "${newsize}" = "-1" ] && die "could not translate size '${size}' to a usable value"
         device_size="$(echo ${size_devicesize} | cut -d '|' -f2)"
       fi
-      add_partition ${device} ${minor} ${newsize} ${type} || die "could not add partition ${minor} to device ${device}"
+      add_partition "${device}" "${minor}" "${newsize}" "${type}" || die "could not add partition ${minor} to device ${device}"
     done
   done
 }
@@ -88,7 +88,7 @@ format_devices() {
         formatcmd="mkfs.xfs ${devnode}"
         ;;
       reiserfs|reiserfs3)
-        formatcmd="mkreiserfs ${devnode}"
+        formatcmd="mkreiserfs -q ${devnode}"
         ;;
       *)
         formatcmd=""
@@ -117,7 +117,7 @@ mount_local_partitions() {
         swap)
           spawn "swapon ${devnode}" || warn "could not activate swap ${devnode}"
           ;;
-        ext2|ext3)
+        ext2|ext3|reiserfs|reiserfs3|xfs)
           echo "mount -t ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mounts
           ;;
       esac
