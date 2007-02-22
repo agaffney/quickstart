@@ -215,8 +215,12 @@ build_kernel() {
 }
 
 install_logging_daemon() {
-  spawn_chroot "emerge ${logging_daemon}" || die "could not emerge logging daemon"
-  spawn_chroot "rc-update add ${logging_daemon} default" || die "could not add logging daemon to default runlevel"
+  if [ "${logging_daemon}" = "none" ]; then
+    debug install_logging_daemon "logging_daemon is 'none'...skipping"
+  else
+    spawn_chroot "emerge ${logging_daemon}" || die "could not emerge logging daemon"
+    spawn_chroot "rc-update add ${logging_daemon} default" || die "could not add logging daemon to default runlevel"
+  fi
 }
 
 install_cron_daemon() {
