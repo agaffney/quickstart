@@ -216,6 +216,12 @@ net() {
   fi
 }
 
+logfile() {
+  local file=$1
+
+  logfile=${file}
+}
+
 sanity_check_config() {
   local fatal=0
 

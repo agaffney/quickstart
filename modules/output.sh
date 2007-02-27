@@ -52,6 +52,6 @@ log() {
   local msg=$1
 
   if [ -n "${logfile}" ]; then
-    echo "$(date): ${msg}" >> ${logfile}
+    echo "$(date): ${msg}" >> ${logfile} 2>/dev/null
   fi
 }

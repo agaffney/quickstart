@@ -105,6 +105,10 @@ if [ ! -f "${profile}" ]; then
   die "Specified profile does not exist!"
 else
   . "${profile}"
+  if ! touch ${logfile} 2>/dev/null; then
+    echo "Logfile is not writeable!"
+    exit 1
+  fi
   runstep sanity_check_config "Sanity checking config"
   if [ "${sanitycheck}" = "1" ]; then
     debug main "Exiting due to --sanity-check"
