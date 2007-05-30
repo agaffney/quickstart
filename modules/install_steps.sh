@@ -197,6 +197,7 @@ set_root_password() {
 set_timezone() {
   [ -e "${chroot_dir}/etc/localtime" ] && spawn "rm ${chroot_dir}/etc/localtime" || die "could not remove existing /etc/localtime"
   spawn "ln -s ../usr/share/zoneinfo/${timezone} ${chroot_dir}/etc/localtime" || die "could not set timezone"
+  spawn "/bin/sed -i 's/#TIMEZONE=\"Factory\"/TIMEZONE=\"${timezone}\"/' ${chroot_dir}/etc/conf.d/clock" || die "could not adjust TIMEZONE config in /etc/conf.d/clock"
 }
 
 build_kernel() {
