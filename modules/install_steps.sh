@@ -46,9 +46,9 @@ setup_md_raid() {
     local arrayopts=$(eval echo \${${array_temp}})
     local arraynum=$(echo ${array} | sed -e 's:^md::')
     if [ ! -e "/dev/md${arraynum}" ]; then
-      spawn "mknod /dev/md${arraynum} b 9 ${arraynum}" || die "could not create device node for array ${array}"
+      spawn "mknod /dev/md${arraynum} b 9 ${arraynum}" || die "could not create device node for mdraid array ${array}"
     fi
-    spawn "mdadm --create /dev/${array} ${arrayopts}" || die "could not create array ${array}"
+    spawn "mdadm --create --run /dev/${array} ${arrayopts}" || die "could not create mdraid array ${array}"
   done
 }
 
@@ -353,5 +353,8 @@ failure_cleanup() {
   done
   for swap in $(awk '/^\// { print $1; }' /proc/swaps); do
     spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
+  done
+  for array in $(set | grep '^mdraid_' | cut -d= -f1 | sed -e 's:^mdraid_::' | sort); do
+    spawn "mdadm --manage --stop /dev/${array}" || die "could not stop mdraid array ${array}"
   done
 }
