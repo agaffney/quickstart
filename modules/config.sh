@@ -95,6 +95,12 @@ bootloader() {
   bootloader="${pkg}"
 }
 
+bootloader_kernel_args() {
+  local kernel_args=$1
+
+  bootloader_kernel_args="${kernel_args}"
+}
+
 logger() {
   local pkg=$1
 

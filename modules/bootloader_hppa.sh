@@ -22,7 +22,7 @@ configure_bootloader_palo() {
   if [ -z "${initrd}" ]; then
     echo "root=${root}" >> ${chroot_dir}/etc/palo.conf
   else
-    echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} initrd=${boot_minor}/boot/${initrd}" >> ${chroot_dir}/etc/palo.conf
+    echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} initrd=${boot_minor}/boot/${initrd} ${bootloader_kernel_args}" >> ${chroot_dir}/etc/palo.conf
   fi
   if ! spawn_chroot "/sbin/palo"; then
     error "could not install palo"

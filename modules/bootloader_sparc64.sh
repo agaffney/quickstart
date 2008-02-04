@@ -24,7 +24,7 @@ configure_bootloader_silo() {
     if [ -z "${initrd}" ]; then
       echo "  append = \"root=${root}\"" >> ${chroot_dir}/boot/silo.conf
     else
-      echo "  append = \"root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root}\"" >> ${chroot_dir}/boot/silo.conf
+      echo "  append = \"root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} ${bootloader_kernel_args}\"" >> ${chroot_dir}/boot/silo.conf
       echo "  initrd = /boot/${initrd}" >> ${chroot_dir}/boot/silo.conf
     fi
   done

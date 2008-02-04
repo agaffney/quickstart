@@ -29,7 +29,7 @@ configure_bootloader_grub() {
     if [ -z "${initrd}" ]; then
       echo "root=${root}" >> ${chroot_dir}/boot/grub/grub.conf
     else
-      echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root}" >> ${chroot_dir}/boot/grub/grub.conf
+      echo "root=/dev/ram0 init=/linuxrc ramdisk=8192 real_root=${root} ${bootloader_kernel_args}" >> ${chroot_dir}/boot/grub/grub.conf
       echo -e "initrd /boot/${initrd}\n" >> ${chroot_dir}/boot/grub/grub.conf
     fi
   done

@@ -209,6 +209,15 @@ kernel_sources - Specifies the kernel sources to use (defaults to
     source - kernel sources to emerge
 
 
+bootloader_kernel_args - Specifies extra commandline arguments to pass to the kernel
+
+  Usage:
+    bootloader_kernel_args <args>
+
+  Parameters:
+    args - extra commandline arguments to pass to the kernel
+
+
 timezone - Specifies the timezone
 
   Usage:
