@@ -45,6 +45,20 @@ human_size_to_mb() {
   echo "${size}|${device_size}"
 }
 
+format_devnode() {
+  local device=$1
+  local partition=$1
+  local devnode=""
+
+  echo "${device}" | grep -q '[0-9]$'
+  if [ $? = "0" ]; then
+    devnode="${device}p${partition}"
+  else
+    devnode="${device}${partition}"
+  fi
+  echo "${devnode}"
+}
+
 fdisk_command() {
   local device=$1
   local cmd=$2

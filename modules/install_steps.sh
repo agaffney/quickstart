@@ -14,10 +14,10 @@ run_pre_install_script() {
 }
 
 partition() {
-  for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
+  for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::'); do
     debug partition "device is ${device}"
     local device_temp="partitions_${device}"
-    local device="/dev/${device}"
+    local device="/dev/$(echo "${device}" | sed  -e 's:_:/:g')"
     local device_size="$(get_device_size_in_mb ${device})"
     create_disklabel ${device} || die "could not create disklabel for device ${device}"
     for partition in $(eval echo \${${device_temp}}); do
@@ -25,7 +25,7 @@ partition() {
       local minor=$(echo ${partition} | cut -d: -f1)
       local type=$(echo ${partition} | cut -d: -f2)
       local size=$(echo ${partition} | cut -d: -f3)
-      local devnode="${device}${minor}"
+      local devnode=$(format_devnode "${device}" "${minor}")
       debug partition "devnode is ${devnode}"
       if [ "${type}" = "extended" ]; then
         newsize="${device_size}"
