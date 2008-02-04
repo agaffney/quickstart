@@ -1,11 +1,11 @@
 # $Id$
 
-GOOD=$'\e[32;01m'
-WARN=$'\e[33;01m'
-BAD=$'\e[31;01m'
-HILITE=$'\e[36;01m'
-BRACKET=$'\e[34;01m'
-NORMAL=$'\e[0m'
+GOOD='\033[32;01m'
+WARN='\033[33;01m'
+BAD='\033[31;01m'
+HILITE='\033[36;01m'
+BRACKET='\033[34;01m'
+NORMAL='\033[0m'
 
 logfile=/tmp/install.log
 
@@ -22,14 +22,14 @@ debug() {
 notify() {
   local msg=$1
 
-  [ $quiet = 0 ] && echo " ${GOOD}*${NORMAL} ${msg}"
+  [ $quiet = 0 ] && echo -e " ${GOOD}*${NORMAL} ${msg}"
   log "${msg}"
 }
 
 error() {
   local msg=$1
 
-  echo " ${BAD}*${NORMAL} ${msg}" >&2
+  echo -e " ${BAD}*${NORMAL} ${msg}" >&2
   log "Error: ${msg}"
 }
 
@@ -44,7 +44,7 @@ die() {
 warn() {
   local msg=$1
   
-  [ $quiet = 0 ] && echo " ${WARN}*${NORMAL} ${msg}" >&2
+  [ $quiet = 0 ] && echo -e " ${WARN}*${NORMAL} ${msg}" >&2
   log "Warning: ${msg}"
 }
 
