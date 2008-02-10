@@ -257,3 +257,11 @@ net - Sets up networking
     ip/dhcp - static IP address or "dhcp"
     gateway - gateway IP if using a static IP
 
+
+skip - Skips an install step
+
+  Usage:
+    skip <install step>
+
+  Parameters:
+    install step - name of step to skip

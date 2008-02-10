@@ -228,6 +228,11 @@ logfile() {
   logfile=${file}
 }
 
+skip() {
+  local func=$1
+  eval "skip_${func}=1"
+}
+
 sanity_check_config() {
   local fatal=0
 
