@@ -70,14 +70,14 @@ sub handle_request {
 
   if($path eq "/get_profile_path") {
 #    send_response($conn, "Hello!");
-    send_response("tftp://1.2.3.4/profiles/your_profile");
+    send_response($conn, "tftp://1.2.3.4/profiles/your_profile");
     if(0) {
     open TMP, "< /tmp/quickstartd.profiles";
     my @profiles;
     while(<TMP>) {
       chomp;
       my @parts = split /\s+/;
-      push $profiles, $parts;
+      push @profiles, \@parts;
     }
     close TMP;
     foreach(@profiles) {
