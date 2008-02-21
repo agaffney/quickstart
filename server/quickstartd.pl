@@ -90,6 +90,11 @@ sub get_profile_path {
     }
   }
 
+  if($profile_path =~ /^\//) {
+#    $profile_path = "quickstart://foo" . $profile_path;
+    $profile_path = "quickstart://foo/get_profile?mac=" . $mac;
+  }
+
   return $profile_path;
 }
 
