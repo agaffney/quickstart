@@ -68,8 +68,22 @@ sub handle_request {
     return;
   }
 
-  if($path eq "/hello") {
-    send_response($conn, "Hello!");
+  if($path eq "/get_profile_path") {
+#    send_response($conn, "Hello!");
+    send_response("tftp://1.2.3.4/profiles/your_profile");
+    if(0) {
+    open TMP, "< /tmp/quickstartd.profiles";
+    my @profiles;
+    while(<TMP>) {
+      chomp;
+      my @parts = split /\s+/;
+      push $profiles, $parts;
+    }
+    close TMP;
+    foreach(@profiles) {
+      
+    }
+    }
   } else {
     debug("Sending 404");
     $conn->send_basic_header(404);
