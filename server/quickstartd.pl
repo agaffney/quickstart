@@ -51,6 +51,48 @@ sub send_response {
   print $conn $response;
 }
 
+sub get_profile_path {
+  my $mac = shift;
+
+  my $profile_path;
+  my @macparts = split /:/, $mac;
+
+  if(0) {
+    open TMP, "< /tmp/quickstartd.profiles";
+    my @profiles;
+    while(<TMP>) {
+      chomp;
+      my @parts = split /\s+/;
+      push @profiles, \@parts;
+    }
+    close TMP;
+  }
+
+  my @profiles = (
+    ["BB:CC:*", "/path/to/profile3"],
+    ["AA:BB:CC:DD:*", "/path/to/profile1"],
+    ["*", "/path/to/profile2"],
+  );
+
+  foreach my $profile (@profiles) {
+    my @profile_macparts = split /:/, $profile->[0];
+    my $match = 1;
+    for(0..5) {
+      last if($profile_macparts[$_] eq "*");
+      if(lc($profile_macparts[$_]) ne lc($macparts[$_])) {
+        $match = 0;
+        last;
+      }
+    }
+    if($match) {
+      $profile_path = $profile->[1];
+      last;
+    }
+  }
+
+  return $profile_path;
+}
+
 sub handle_request {
   my $conn = shift;
 
@@ -69,21 +111,9 @@ sub handle_request {
   }
 
   if($path eq "/get_profile_path") {
-#    send_response($conn, "Hello!");
-    send_response($conn, "tftp://1.2.3.4/profiles/your_profile");
-    if(0) {
-    open TMP, "< /tmp/quickstartd.profiles";
-    my @profiles;
-    while(<TMP>) {
-      chomp;
-      my @parts = split /\s+/;
-      push @profiles, \@parts;
-    }
-    close TMP;
-    foreach(@profiles) {
-      
-    }
-    }
+    send_response($conn, get_profile_path($args->{mac}));
+  } elsif($path eq "/get_profile") {
+    $conn->send_file_response(get_profile_path($args->{mac}));
   } else {
     debug("Sending 404");
     $conn->send_basic_header(404);
