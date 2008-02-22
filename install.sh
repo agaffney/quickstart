@@ -105,8 +105,9 @@ done
 
 if [ -n "${server}" ]; then
   server_init
-  server_get_profile
-  profile="/tmp/quickstart_profile"
+  if server_get_profile; then
+    profile="/tmp/quickstart_profile"
+  fi
 fi
 
 if [ -z "${profile}" ]; then
