@@ -36,6 +36,7 @@ sub parse_request_url {
   if(defined $2) {
     foreach my $pair (split /&/, $2) {
       my @parts = split /=/, $pair;
+      $parts[1] =~ s/\+/ /g;
       $args->{$parts[0]} = $parts[1];
     }
   }
