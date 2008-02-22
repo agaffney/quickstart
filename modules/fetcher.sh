@@ -6,6 +6,12 @@ get_filename_from_uri() {
   basename "${1}"
 }
 
+get_path_from_uri() {
+  local uri=$1
+
+  echo "${uri}" | cut -d / -f 4-
+}
+
 get_protocol_from_uri() {
   local uri=$1
 
@@ -24,6 +30,14 @@ fetch() {
   else
     die "No fetcher for protocol ${protocol}"
   fi
+}
+
+fetch_quickstart() {
+  local uri=$1
+  local localfile=$2
+
+  local realurl="http://${server_host}:${server_port}/$(get_path_from_uri "${uri}")"
+  fetch_http_https_ftp "${realurl}" "${localfile}"
 }
 
 fetch_http() {
@@ -46,8 +60,10 @@ fetch_http_https_ftp() {
   local localfile=$2
 
   debug fetch_http_https_ftp "Fetching URL ${uri} to ${2}"
-  spawn "wget -O ${localfile} ${uri}" || die "could not fetch ${uri}"
-  debug fetch_http_https_ftp "exit code from wget was $?"
+  spawn "wget -O ${localfile} ${uri}"
+  local wget_exitcode=$?
+  debug fetch_http_https_ftp "exit code from wget was ${wget_exitcode}"
+  return ${wget_exitcode}
 }
 
 fetch_file() {
