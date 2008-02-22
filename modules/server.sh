@@ -32,5 +32,7 @@ server_get_profile() {
 }
 
 pre_failure_cleanup() {
-  warn "Scire integration doesn't work properly yet!"
+  if [ -n "${server_host}" ]; then
+    warn "We should probably tell the server something went wrong"
+  fi
 }
