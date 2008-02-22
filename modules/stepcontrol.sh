@@ -17,6 +17,9 @@ runstep() {
   local skipfunc=$(eval $(echo echo "\${skip_${func}}"))
   if [ "${skipfunc}" != "1" ]; then
     notify "${descr}"
+    if [ -n "${server}" ]; then
+      server_send_request "update_status" "func=${func}&descr=$(echo "${descr}" | sed -e 's: :+:g')"
+    fi
     if $(isafunc pre_${func}); then
       debug runstep "executing pre-hook for ${func}"
       pre_${func}
