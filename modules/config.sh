@@ -233,6 +233,11 @@ skip() {
   eval "skip_${func}=1"
 }
 
+server() {
+  server=$1
+  server_init
+}
+
 sanity_check_config() {
   local fatal=0
 

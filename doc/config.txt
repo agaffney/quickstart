@@ -265,3 +265,13 @@ skip - Skips an install step
 
   Parameters:
     install step - name of step to skip
+
+
+server - Specify a quickstart server
+
+  Usage:
+    server <host>[:<port>]
+
+  Parameters:
+    host - hostname or IP address of quickstart server
+    port - port server is listening on (defaults to 8899)
