@@ -115,11 +115,12 @@ if [ -z "${profile}" ]; then
 fi
 
 if [ ! -f "${profile}" ]; then
-  die "Specified profile does not exist!"
+  error "Specified profile does not exist!"
+  exit 1
 else
   . "${profile}"
   if ! touch ${logfile} 2>/dev/null; then
-    echo "Logfile is not writeable!"
+    error "Logfile is not writeable!"
     exit 1
   fi
   runstep sanity_check_config "Sanity checking config"
