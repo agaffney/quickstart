@@ -17,3 +17,7 @@ detect_disks() {
     fi
   done
 }
+
+get_mac_address() {
+  /sbin/ifconfig | grep HWaddr | head -n 1 | sed -e 's:^.*HWaddr ::'
+}
