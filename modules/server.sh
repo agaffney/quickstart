@@ -23,6 +23,10 @@ server_send_request() {
 
 server_get_profile() {
   local profile_uri=$(server_send_request "get_profile_path" "mac=${mac_address}")
+  if [ -z "${profile_uri}" ]; then
+    error "error in response from server"
+    exit 1
+  fi
   debug server_get_profile "profile URI is ${profile_uri}"
   if ! fetch "${profile_uri}" "/tmp/quickstart_profile"; then
     error "could not fetch profile"
