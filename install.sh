@@ -34,6 +34,7 @@ Options:
   -q|--quiet           Only output fatal error messages
   -v|--verbose         Be verbose (show external command output)
   -s|--sanity-check    Sanity check install profile and exit
+  -c|--client <host>   Act as a client and connect to a quickstartd
   --version            Print version and exit
 
 Arguments:
@@ -52,6 +53,7 @@ import partition
 import install_steps
 import config
 import stepcontrol
+import server
 
 # Parse args
 while [ ${#} -gt 0 ]
@@ -83,6 +85,10 @@ do
       fi
       verbose=1
       ;;
+    -c|--client)
+      server=${1}
+      shift
+      ;;
     --version)
       echo "install.sh version ${VERSION}"
       exit 0
@@ -97,10 +103,17 @@ do
   esac
 done
 
+if [ -n "${server}" ]; then
+  server_init
+  server_get_profile
+  profile="/tmp/quickstart_profile"
+fi
+
 if [ -z "${profile}" ]; then
   usage "You must specify a profile"
   exit 1
 fi
+
 if [ ! -f "${profile}" ]; then
   die "Specified profile does not exist!"
 else
