@@ -30,7 +30,7 @@ sub create_daemon {
 sub parse_request_url {
   my $url = shift;
 
-  $url =~ /^([^?]+)(?:\?(.+))?$/;
+  $url =~ /^([^?]+)(?:\?(.*))?$/;
   my $path = $1;
   my $args = {};
   if(defined $2) {
@@ -71,7 +71,7 @@ sub get_profile_path {
   my @profiles = (
     ["BB:CC:*", "/path/to/profile3"],
     ["AA:BB:CC:DD:*", "/path/to/profile1"],
-    ["*", "/path/to/profile2"],
+    ["*", "/home/agaffney/dev/gentoo/svn/quickstart/trunk/doc/profile_example.sh"],
   );
 
   foreach my $profile (@profiles) {
@@ -88,10 +88,6 @@ sub get_profile_path {
       $profile_path = $profile->[1];
       last;
     }
-  }
-
-  if($profile_path =~ /^\//) {
-    $profile_path = "quickstart://foo/get_profile?mac=" . $mac;
   }
 
   return $profile_path;
@@ -115,7 +111,11 @@ sub handle_request {
   }
 
   if($path eq "/get_profile_path") {
-    send_response($conn, get_profile_path($args->{mac}));
+    my $profile_path = get_profile_path($args->{mac});
+    if($profile_path =~ /^\//) {
+      $profile_path = "quickstart:///get_profile?mac=" . $args->{mac};
+    }
+    send_response($conn, $profile_path);
   } elsif($path eq "/get_profile") {
     $conn->send_file_response(get_profile_path($args->{mac}));
   } else {
