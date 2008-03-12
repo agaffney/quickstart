@@ -25,7 +25,7 @@ usage() {
   fi
   cat <<EOF
 Usage:
-  install.sh [-h|--help] [-d|--debug] [-v|--verbose] [-q|--quiet]
+  quickstart [-h|--help] [-d|--debug] [-v|--verbose] [-q|--quiet]
              [-s|--sanity-check] [--version] <profile>
 
 Options:
@@ -90,7 +90,7 @@ do
       shift
       ;;
     --version)
-      echo "install.sh version ${VERSION}"
+      echo "Quickstart version ${VERSION}"
       exit 0
       ;;
     -*)
