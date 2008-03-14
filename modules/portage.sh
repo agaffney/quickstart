@@ -1,6 +1,6 @@
 # $Id$
 
-emerge() {
+run_emerge() {
   pkgs=$1
 
   debug emerge "pkgs is '${pkgs}'"
