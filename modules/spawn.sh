@@ -25,5 +25,5 @@ spawn_chroot() {
   debug spawn_chroot "wrapping command '${cmd}' in chroot script"
   echo -e '#!/bin/bash -l\n'${cmd}'\nexit $?' > ${chroot_dir}/var/tmp/spawn.sh
   chmod +x ${chroot_dir}/var/tmp/spawn.sh
-  spawn "chroot ${chroot_dir} /var/tmp/spawn.sh"
+  spawn "${linux32} chroot ${chroot_dir} /var/tmp/spawn.sh"
 }

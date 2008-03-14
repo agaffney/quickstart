@@ -238,6 +238,10 @@ server() {
   server_init
 }
 
+use_linux32() {
+  linux32="linux32"
+}
+
 sanity_check_config() {
   local fatal=0
 
