@@ -124,6 +124,9 @@ else
     error "Logfile is not writeable!"
     exit 1
   fi
+  arch=$(get_arch)
+  debug main "arch is ${arch}"
+  [ -z "${arch}" ] && die "Could not determine arch!"
   runstep sanity_check_config "Sanity checking config"
   if [ "${sanitycheck}" = "1" ]; then
     debug main "Exiting due to --sanity-check"
@@ -131,9 +134,6 @@ else
   fi
 fi
 
-arch=$(get_arch)
-debug main "arch is ${arch}"
-[ -z "${arch}" ] && die "Could not determine arch!"
 
 [ -z "${mode}" ] && mode="normal"
 
