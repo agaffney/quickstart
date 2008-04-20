@@ -3,6 +3,20 @@ $Id$
 The follow is a list of all the valid configuration options with description and
 valid parameters.
 
+install_mode - Choose the install mode
+
+  Usage:
+    install_mode <mode>
+
+  Parameters:
+    mode - the install mode (normal, chroot, or stage4). A normal install is
+           for an install from a stage3 with bootloader setup. A chroot install
+           is the same as a normal install, except it skips the partitioning
+           and bootloader setup. A stage4 install is like a normal install,
+           except that it skips straight from unpacking the stage tarball to
+           configuring the bootloader
+
+
 part - Creates a partition
 
   Usage:

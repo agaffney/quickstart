@@ -1,5 +1,11 @@
 # $Id$
 
+install_mode() {
+  local mode=$1
+
+  install_mode="${mode}"
+}
+
 part() {
   local drive=$1
   local minor=$2
@@ -247,6 +253,10 @@ sanity_check_config() {
 
   debug sanity_check_config "$(set | grep '^[a-z]')"
 
+  if [ -n "${install_mode} -a "${install_mode}" != "normal" -a "${install_mode}" != "chroot" -a "${install_mode}" != "stage4" ]; then
+    error "install_mode must be 'normal', 'chroot', or 'stage4'"
+    fatal=1
+  fi
   if [ -z "${chroot_dir}" ]; then
     error "chroot_dir is not defined (this can only happen if you set it to a blank string)"
     fatal=1

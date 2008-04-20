@@ -135,11 +135,11 @@ else
 fi
 
 
-[ -z "${mode}" ] && mode="normal"
+[ -z "${install_mode}" ] && install_mode="normal"
 
 run_pre_install_script "Running pre-install script"
 
-if [ "${mode}" != "chroot" ]; then 
+if [ "${install_mode}" != "chroot" ]; then 
   runstep partition "Partitioning"
 fi
 
@@ -151,7 +151,7 @@ runstep mount_network_shares "Mounting network shares"
 runstep unpack_stage_tarball "Fetching and unpacking stage tarball"
 runstep prepare_chroot "Preparing chroot"
 
-if [ "${mode}" != "stage4" ]; then
+if [ "${install_mode}" != "stage4" ]; then
   runstep install_portage_tree "Installing portage tree"
   runstep set_root_password "Setting root password"
   runstep set_timezone "Setting timezone"
@@ -163,7 +163,7 @@ if [ "${mode}" != "stage4" ]; then
   runstep install_bootloader "Installing bootloader"
 fi
 
-if [ "${mode}" != "chroot" ]; then
+if [ "${install_mode}" != "chroot" ]; then
   runstep configure_bootloader "Configuring bootloader"
 fi
 
