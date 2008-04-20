@@ -104,7 +104,7 @@ mount_local_partitions() {
   if [ -z "${localmounts}" ]; then
     warn "no local mounts specified. this is a bit unusual, but you're the boss"
   else
-    rm /tmp/install.mounts 2>/dev/null
+    rm /tmp/install.mount /tmp/install.umount /tmp/install.swapoff 2>/dev/null
     for mount in ${localmounts}; do
       debug mount_local_partitions "mount is ${mount}"
       local devnode=$(echo ${mount} | cut -d ':' -f1)
@@ -116,13 +116,15 @@ mount_local_partitions() {
       case "${type}" in
         swap)
           spawn "swapon ${devnode}" || warn "could not activate swap ${devnode}"
+          echo "${devnode}" >> /tmp/install.swapoff
           ;;
         ext2|ext3|reiserfs|reiserfs3|xfs)
-          echo "mount -t ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mounts
+          echo "mount -t ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mount
+          echo "${chroot_dir}${mountpoint}" >> /tmp/install.umount
           ;;
       esac
     done
-    sort -k5 /tmp/install.mounts | while read mount; do
+    sort -k5 /tmp/install.mount | while read mount; do
       mkdir -p $(echo ${mount} | awk '{ print $5; }')
       spawn "${mount}" || die "could not mount with: ${mount}"
     done
@@ -338,23 +340,24 @@ run_post_install_script() {
 
 finishing_cleanup() {
   spawn "cp ${logfile} ${chroot_dir}/root/$(basename ${logfile})" || warn "could not copy install logfile into chroot"
-  for mnt in $(awk '{ print $2; }' /proc/mounts | grep ^${chroot_dir} | sort -r); do
+  for mnt in $(sort -r /tmp/install.umount); do
     spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
   done
-  for swap in $(awk '/^\// { print $1; }' /proc/swaps); do
+  for swap in $(</tmp/install.swapoff); do
     spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
   done
 }
 
 failure_cleanup() {
   spawn "mv ${logfile} ${logfile}.failed" || warn "could not move ${logfile} to ${logfile}.failed"
-  for mnt in $(awk '{ print $2; }' /proc/mounts | grep ^${chroot_dir} | sort -r); do
+  for mnt in $(sort -r /tmp/install.umount); do
     spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
   done
-  for swap in $(awk '/^\// { print $1; }' /proc/swaps); do
+  for swap on $(</tmp/install.swapoff); do
     spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
   done
   for array in $(set | grep '^mdraid_' | cut -d= -f1 | sed -e 's:^mdraid_::' | sort); do
     spawn "mdadm --manage --stop /dev/${array}" || die "could not stop mdraid array ${array}"
   done
 }
+
