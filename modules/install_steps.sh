@@ -353,7 +353,7 @@ failure_cleanup() {
   for mnt in $(sort -r /tmp/install.umount); do
     spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
   done
-  for swap on $(</tmp/install.swapoff); do
+  for swap in $(</tmp/install.swapoff); do
     spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
   done
   for array in $(set | grep '^mdraid_' | cut -d= -f1 | sed -e 's:^mdraid_::' | sort); do
