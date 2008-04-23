@@ -340,22 +340,30 @@ run_post_install_script() {
 
 finishing_cleanup() {
   spawn "cp ${logfile} ${chroot_dir}/root/$(basename ${logfile})" || warn "could not copy install logfile into chroot"
-  for mnt in $(sort -r /tmp/install.umount); do
-    spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
-  done
-  for swap in $(</tmp/install.swapoff); do
-    spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
-  done
+  if [ -e /tmp/install.umount ]; then
+    for mnt in $(sort -r /tmp/install.umount); do
+      spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
+    done
+  fi
+  if [ -e /tmp/install.swapoff ]; then
+    for swap in $(</tmp/install.swapoff); do
+      spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
+    done
+  fi
 }
 
 failure_cleanup() {
   spawn "mv ${logfile} ${logfile}.failed" || warn "could not move ${logfile} to ${logfile}.failed"
-  for mnt in $(sort -r /tmp/install.umount); do
-    spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
-  done
-  for swap in $(</tmp/install.swapoff); do
-    spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
-  done
+  if [ -e /tmp/install.umount ]; then
+    for mnt in $(sort -r /tmp/install.umount); do
+      spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
+    done
+  fi
+  fi [ -e /tmp/install.swapoff ]; then
+    for swap in $(</tmp/install.swapoff); do
+      spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
+    done
+  fi
   for array in $(set | grep '^mdraid_' | cut -d= -f1 | sed -e 's:^mdraid_::' | sort); do
     spawn "mdadm --manage --stop /dev/${array}" || die "could not stop mdraid array ${array}"
   done
