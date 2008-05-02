@@ -359,7 +359,7 @@ failure_cleanup() {
       spawn "umount ${mnt}" || warn "could not unmount ${mnt}"
     done
   fi
-  fi [ -e /tmp/install.swapoff ]; then
+  if [ -e /tmp/install.swapoff ]; then
     for swap in $(</tmp/install.swapoff); do
       spawn "swapoff ${swap}" || warn "could not deactivate swap on ${swap}"
     done
