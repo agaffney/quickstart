@@ -162,11 +162,14 @@ prepare_chroot() {
   spawn "cp /etc/resolv.conf ${chroot_dir}/etc/resolv.conf" || die "could not copy /etc/resolv.conf into chroot"
   debug prepare_chroot "mounting proc"
   spawn "mount -t proc none ${chroot_dir}/proc" || die "could not mount proc"
+  echo "${chroot_dir}/proc" >> /tmp/install.umount
   debug prepare_chroot "bind-mounting /dev"
   spawn "mount -o bind /dev ${chroot_dir}/dev" || die "could not bind-mount /dev"
+  echo "${chroot_dir}/dev" >> /tmp/install.umount
   if [ "$(uname -r | cut -d. -f 2)" = "6" ]; then
     debug prepare_chroot "bind-mounting /sys"
     spawn "mount -o bind /sys ${chroot_dir}/sys" || die "could not bind-mount /sys"
+    echo "${chroot_dir}/sys" >> /tmp/install.umount
   else
     debug prepare_chroot "kernel is not 2.6...not bind-mounting /sys"
   fi
