@@ -248,6 +248,10 @@ use_linux32() {
   linux32="linux32"
 }
 
+verbose() {
+  verbose=1
+}
+
 sanity_check_config() {
   local fatal=0
 
@@ -304,7 +308,6 @@ sanity_check_config() {
   if ! sanity_check_config_bootloader; then
     fatal=1
   fi
-
 
   debug sanity_check_config "$(set | grep '^[a-z]')"
 
