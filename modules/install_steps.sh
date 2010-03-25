@@ -78,14 +78,8 @@ format_devices() {
       swap)
         formatcmd="mkswap ${devnode}"
         ;;
-      ext2)
-        formatcmd="mke2fs ${devnode}"
-        ;;
-      ext3)
-        formatcmd="mke2fs -j ${devnode}"
-        ;;
-      xfs)
-        formatcmd="mkfs.xfs ${devnode}"
+      ext2|ext3|ext4|xfs)
+        formatcmd="mkfs.${fs} ${devnode}"
         ;;
       reiserfs|reiserfs3)
         formatcmd="mkreiserfs -q ${devnode}"
@@ -118,7 +112,7 @@ mount_local_partitions() {
           spawn "swapon ${devnode}" || warn "could not activate swap ${devnode}"
           echo "${devnode}" >> /tmp/install.swapoff
           ;;
-        ext2|ext3|reiserfs|reiserfs3|xfs)
+        ext2|ext3|ext4|reiserfs|reiserfs3|xfs)
           echo "mount -t ${type} ${devnode} ${chroot_dir}${mountpoint} ${mountopts}" >> /tmp/install.mount
           echo "${chroot_dir}${mountpoint}" >> /tmp/install.umount
           ;;
