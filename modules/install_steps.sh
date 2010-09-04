@@ -270,6 +270,19 @@ setup_network_post() {
       local gateway="$(echo ${net_device} | cut -d '|' -f3)"
       if [ "${ipdhcp}" = "dhcp" ] || [ "${ipdhcp}" = "DHCP" ]; then
         echo "config_${device}=( \"dhcp\" )" >> ${chroot_dir}/etc/conf.d/net
+      elif [ "${ipdhcp}" = "current" ]; then
+        if [ "`ifconfig | grep -C 3 ${device} | grep inet`" != "" ]; then
+          DATA=`ifconfig | grep -C 3 ${device} | grep inet | cut -c 16-`
+          IP=`echo ${DATA} | awk '{print $1}' | cut -d':' -f2`
+          BC=`echo ${DATA} | awk '{print $2}' | cut -d':' -f2`
+          NM=`echo ${DATA} | awk '{print $3}' | cut -d':' -f2`
+          DGW=`route -n | grep ${device} | awk '{ if ($1 == "0.0.0.0") {print $2} }'`
+
+          echo -e "config_${device}=(\"${IP} netmask ${NM} broadcast ${BC}\")" >> ${chroot_dir}/etc/conf.d/net
+	  echo -e "routes_${device}=(\"default via ${DGW}\")" >> ${chroot_dir}/etc/conf.d/net
+        else
+          debug setup_network_post "No current network config found on ${device}"
+        fi
       else
         echo -e "config_${device}=( \"${ipdhcp}\" )\nroutes_${device}=( \"default via ${gateway}\" )" >> ${chroot_dir}/etc/conf.d/net
       fi
