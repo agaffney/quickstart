@@ -15,6 +15,10 @@ configure_bootloader_grub() {
   local boot_minor="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f2)"
   local root="$(echo ${boot_root} | cut -d '|' -f2)"
   local kernel_initrd="$(get_kernel_and_initrd)"
+
+  # Clear out any existing device.map for a "clean" start
+  rm ${chroot_dir}/boot/grub/device.map &>/dev/null
+
   for k in ${kernel_initrd}; do
     local kernel="$(echo ${k} | cut -d '|' -f1)"
     local initrd="$(echo ${k} | cut -d '|' -f2)"
