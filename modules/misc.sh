@@ -21,3 +21,32 @@ detect_disks() {
 get_mac_address() {
   /sbin/ifconfig | grep HWaddr | head -n 1 | sed -e 's:^.*HWaddr ::' -e 's: .*$::'
 }
+
+unpack_tarball() {
+  local file=$1
+  local dest=$2
+  local preserve=$3
+
+  tar_flags = "xv"
+
+  if [ "$preserve" = "1" ]; then
+    tar_flags="${tar_flags}p"
+  fi
+
+  extension=$(echo "$file" | sed -e 's:^.*\.\([^.]\+\)$:\1:')
+  case $extension in
+    gz)
+      tar_flags="${tar_flags}z"
+      ;;
+    bz2)
+      tar_flags="${tar_flags}j"
+      ;;
+    lz*|xz*)
+      tar_flags="${tar_flags}l"
+      ;;
+  esac
+
+  spawn "tar -C ${dest} -${tar_flags} ${file}"
+  return $?
+}
+      

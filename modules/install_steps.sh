@@ -148,7 +148,7 @@ mount_network_shares() {
 
 unpack_stage_tarball() {
   fetch "${stage_uri}" "${chroot_dir}/$(get_filename_from_uri ${stage_uri})" || die "Could not fetch stage tarball"
-  spawn "tar -C ${chroot_dir} -xjpf ${chroot_dir}/$(get_filename_from_uri ${stage_uri})" || die "Could not unpack stage tarball"
+  unpack_tarball "${chroot_dir}/$(get_filename_from_uri ${stage_uri})" "${chroot_dir}" 1 || die "Could not unpack stage tarball"
 }
 
 prepare_chroot() {
@@ -175,7 +175,7 @@ install_portage_tree() {
     spawn_chroot "emerge --sync" || die "could not sync portage tree"
   elif [ "${tree_type}" = "snapshot" ]; then
     fetch "${portage_snapshot_uri}" "${chroot_dir}/$(get_filename_from_uri ${portage_snapshot_uri})" || die "could not fetch portage snapshot"
-    spawn "tar -C ${chroot_dir}/usr -xjf ${chroot_dir}/$(get_filename_from_uri ${portage_snapshot_uri})" || die "could not unpack portage snapshot"
+    unpack_tarball "${chroot_dir}/$(get_filename_from_uri ${portage_snapshot_uri})" "${chroot_dir}/usr" || die "could not unpack portage snapshot"
   elif [ "${tree_type}" = "webrsync" ]; then
     spawn_chroot "emerge-webrsync" || die "could not emerge-webrsync"
   elif [ "${tree_type}" = "none" ]; then
