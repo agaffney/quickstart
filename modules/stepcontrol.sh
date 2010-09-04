@@ -3,7 +3,7 @@
 isafunc() {
   local func=$1
 
-  if [ -n "$(type ${func} 2>/dev/null | grep "function")" ]; then
+  if command -v ${func} >/dev/null; then
     return 0
   else
     return 1
