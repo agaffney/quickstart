@@ -46,7 +46,7 @@ unpack_tarball() {
       ;;
   esac
 
-  spawn "tar -C ${dest} -${tar_flags} ${file}"
+  spawn "tar -C ${dest} -${tar_flags} -f ${file}"
   return $?
 }
-      
+
