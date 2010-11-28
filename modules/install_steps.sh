@@ -189,7 +189,7 @@ set_root_password() {
   if [ -n "${root_password_hash}" ]; then
     spawn_chroot "echo 'root:${root_password_hash}' | chpasswd -e" || die "could not set root password"
   elif [ -n "${root_password}" ]; then
-    spawn_chroot "echo 'root:${root_password}' | chpasswd -m" || die "could not set root password"
+    spawn_chroot "echo 'root:${root_password}' | chpasswd" || die "could not set root password"
   fi
 }
 
