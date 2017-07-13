@@ -156,11 +156,9 @@ if [ "${install_mode}" != "stage4" ]; then
   runstep set_root_password "Setting root password"
   runstep set_timezone "Setting timezone"
   runstep setup_fstab "Setting up /etc/fstab"
-  runstep build_kernel "Building kernel"
   runstep install_logging_daemon "Installing logging daemon"
   runstep install_cron_daemon "Installing cron daemon"
   runstep setup_network_post "Setting up post-install networking"
-  runstep install_bootloader "Installing bootloader"
 fi
 
 if [ "${install_mode}" != "chroot" ]; then
@@ -170,6 +168,12 @@ fi
 runstep install_extra_packages "Installing extra packages"
 runstep add_and_remove_services "Adding and removing services"
 runstep run_post_install_script "Running post-install script"
+
+if [ "${install_mode}" != "stage4" ]; then
+  runstep build_kernel "Building kernel"
+  runstep install_bootloader "Installing bootloader"
+fi
+
 runstep finishing_cleanup "Cleaning up"
 
 notify "Install complete!"
