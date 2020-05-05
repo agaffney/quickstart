@@ -1,5 +1,3 @@
-# $Id$
-
 stage_uri http://192.168.0.12/gentoo/stage3-i686-2006.1.tar.bz2
 tree_type snapshot http://192.168.0.12/gentoo/portage-20061216.tar.bz2
 rootpw password

@@ -1,4 +1,4 @@
-$Id$
+# Configuration
 
 The follow is a list of all the valid configuration options with description and
 valid parameters.
