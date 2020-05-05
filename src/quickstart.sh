@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id$
+# An installer for Gentoo Linux written in POSIX shell
 
 # Constants
 VERSION=foon
