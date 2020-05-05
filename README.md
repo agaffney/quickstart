@@ -1,6 +1,6 @@
 # Quickstart
 
-_An installer for Gentoo Linux written in POSIX sh._
+_An installer for Gentoo Linux written in POSIX shell._
 
 ## License
 
