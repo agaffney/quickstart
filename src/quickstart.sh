@@ -2,7 +2,7 @@
 # An installer for Gentoo Linux written in POSIX shell
 
 # Constants
-VERSION=foon
+VERSION="12.7.1"
 
 # Options vars
 debug=0
