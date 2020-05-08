@@ -17,7 +17,7 @@ applications; most notably, the official [Installer project][stager],
 it is time to start work on creating a perfect Gentoo installer. --[Project:Installer][stager]
 
 I would argue that Gentoo does not need a [*perfect*](https://wikipedia.org/wiki/Worse_is_better)
-installer, just one that works well enough to get a working system.
+installer, just one that works well enough to get the system up and running.
 Therefore, instead of writing a new installer from scratch,
 I have instead decided to give Quickstart another chance.
 
