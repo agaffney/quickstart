@@ -2,6 +2,7 @@
 
 _An installer for Gentoo Linux written in POSIX shell._
 
+[![GNU General Public License v2.0 only](https://img.shields.io/badge/license-GPL--2.0--only-blue?style=flat-square)][GPL-2.0-only]
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/oxr463/quickstart/ShellCheck?style=flat-square)](https://github.com/oxr463/pentesting-guide/actions)
 
 ## Motivation
@@ -27,9 +28,11 @@ Based on the original [Quickstart][quickstart] by Andrew Gaffney.
 
 ## License
 
-SPDX-License-Identifier: [GPL-2.0-only](https://spdx.org/licenses/GPL-2.0-only.html)
+SPDX-License-Identifier: [GPL-2.0-only][GPL-2.0-only]
 
 See [COPYING](COPYING) file for copyright and license details.
+
+[GPL-2.0-only]: https://spdx.org/licenses/GPL-2.0-only.html
 
 ## Reference
 
