@@ -6,11 +6,24 @@ _An installer for Gentoo Linux written in POSIX shell._
 
 ## Motivation
 
-> The goal of Gentoo is to design tools and systems that allow a user to do that work as pleasantly and efficiently as possible, as they see fit. --[The philosophy of Gentoo](https://www.gentoo.org/get-started/philosophy).
+The original [Quickstart][quickstart] was initially written to address the apparent short comings
+of the [Gentoo Linux Installer (GLI)][gli]; however, it has been without a maintainer since
+at least [2012](CHANGELOG.md#1270---2012-07-07).
+
+Since then, multiple efforts have attempted to replace these
+applications; most notably, the official [Installer project][stager],
+
+> After many years of an installer being absent from Gentoo,
+it is time to start work on creating a perfect Gentoo installer. --[Project:Installer][stager]
+
+I would argue that Gentoo does not need a [*perfect*](https://wikipedia.org/wiki/Worse_is_better)
+installer, just one that works well enough to get a working system.
+Therefore, instead of writing a new installer from scratch,
+I have instead decided to give Quickstart another chance.
 
 ## Acknowledgement
 
-Based on the original [Quickstart](https://github.com/agaffney/quickstart) by Andrew Gaffney.
+Based on the original [Quickstart][quickstart] by Andrew Gaffney.
 
 ## License
 
@@ -20,9 +33,13 @@ See [COPYING](COPYING) file for copyright and license details.
 
 ## Reference
 
-- [Gentoo Linux Installer (GLI)](https://wiki.gentoo.org/wiki/Project:Installer/Old)
+- [Gentoo Linux Installer (GLI)][gli]
 
-- [Project:Installer](https://wiki.gentoo.org/wiki/Project:Installer)
+- [Project:Installer][stager]
+
+[gli]: https://wiki.gentoo.org/wiki/Project:Installer/Old
+[quickstart]: https://github.com/agaffney/quickstart
+[stager]: https://wiki.gentoo.org/wiki/Project:Installer
 
 ## See Also
 
