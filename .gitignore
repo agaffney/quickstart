@@ -1,1 +1,3 @@
 .vagrant/
+*.5
+quickstart
