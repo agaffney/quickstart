@@ -1,6 +1,8 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
-import partition_x86
+import "x86/partition"
 
 sanity_check_config_partition() {
   warn "Sanity checking partition config for amd64"

@@ -65,7 +65,7 @@ sanity_check_config_bootloader() {
 }
 
 arch=$(get_arch)
-if [ -f "modules/target/${arch}/bootloader.sh" ]; then
+if [ -f "modules/${arch}/bootloader.sh" ]; then
   debug bootloader.sh "loading ${arch}-specific bootloader module"
-  import "target/${arch}/bootloader"
+  import "${arch}/bootloader"
 fi

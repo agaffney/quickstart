@@ -1,0 +1,2 @@
+# Allow using externally defines variables
+disable=SC2154

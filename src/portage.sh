@@ -1,4 +1,7 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+# shellcheck disable=SC2154
+set -eu
 
 run_emerge() {
   pkgs=$1

@@ -2,9 +2,9 @@
 
 sanity_check_config_partition() {
   for device in $(set | grep '^partitions_' | cut -d= -f1 | sed -e 's:^partitions_::' -e 's:_:/:g'); do
-    local device_temp="partitions_${device}"
+    device_temp="partitions_${device}"
     for partition in $(eval echo \${${device_temp}}); do
-      local minor=$(echo ${partition} | cut -d: -f1)
+      minor=$(echo ${partition} | cut -d: -f1)
       if [ "${minor}" = "3" ]; then
         error "you cannot define partition number 3 with a sun disklabel (taken by whole disk)"
         return 1
@@ -14,7 +14,7 @@ sanity_check_config_partition() {
 }
 
 create_disklabel() {
-  local device=$1
+  device=$1
 
   debug create_disklabel "creating new sun disklabel"
   spawn "dd if=/dev/zero of=${device} bs=512 count=1" || die "couldn't clear first block"
@@ -23,19 +23,19 @@ create_disklabel() {
 }
 
 get_partition_end() {
-  local device=$1
-  local minor=$2
+  device=$1
+  minor=$2
 
   fdisk -l ${device} | grep "^${device}${minor}" | awk '{ if ( $2 ~ /^[0-9]+$/ ) print $3; else print $4; }'
 }
 
 add_partition() {
-  local device=$1
-  local minor=$2
-  local size=$3
-  local type=$4
+  device=$1
+  minor=$2
+  size=$3
+  type=$4
 
-  local start
+  start
   if [ "${minor}" = "1" ]; then
     start=0
   elif [ "${minor}" = "4" ]; then

@@ -1,38 +1,40 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
 sanity_check_config_partition() {
   warn "Sanity checking partition config for x86"
 }
 
 create_disklabel() {
-  local device=$1
+  device=$1
 
   debug create_disklabel "creating new msdos disklabel"
-  fdisk_command ${device} "o"
+  fdisk_command "${device}" "o"
   return $?
 }
 
 get_num_primary() {
-  local device=$1
+  device=$1
 
-  local primary_count=0
-  local device_temp="partitions_$(echo ${device} sed -e 's:^.\+/::')"
-  for partition in $(eval echo \${${device_temp}}); do
+  primary_count=0
+  device_temp="partitions_$(echo "${device}" | sed -e 's:^.\+/::')"
+  for partition in $(eval echo \${"${device_temp}"}); do
     debug get_num_primary "partition is ${partition}"
-    local minor=$(echo ${partition} | cut -d: -f1)
+    minor=$(echo "${partition}" | cut -d: -f1)
     if [ "${minor}" -lt "5" ]; then
-      primary_count=$(expr ${primary_count} + 1)
+      primary_count=$((primary_count+1))
       debug get_num_primary "primary_count is ${primary_count}"
     fi
   done
-  echo ${primary_count}
+  echo "${primary_count}"
 }
 
 add_partition() {
-  local device=$1
-  local minor=$2
-  local size=$3
-  local type=$4
+  device=$1
+  minor=$2
+  size=$3
+  type=$4
 
   if [ "${type}" = "extended" ]; then
     # Extended partition
@@ -54,9 +56,9 @@ add_partition() {
     first_minor="${minor}\n"
     type_minor="${minor}\n"
     primary_extended="l\n"
-    [ "$(get_num_primary ${device})" > "3" ] && primary_extended=""
+    [ "$(get_num_primary "${device}")" -gt "3" ] && primary_extended=""
   fi
   [ -n "${size}" ] && size="+${size}M"
-  fdisk_command ${device} "n\n${primary_extended}${first_minor}\n${size}\nt\n${type_minor}${type}\n"
+  fdisk_command "${device}" "n\n${primary_extended}${first_minor}\n${size}\nt\n${type_minor}${type}\n"
   return $?
 }
