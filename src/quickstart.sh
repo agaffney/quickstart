@@ -15,7 +15,8 @@ sanitycheck=0
 import() {
   module=$1
 
-  . modules/${module}.sh
+  # shellcheck source=/dev/null
+  . "modules/${module}.sh"
   debug import "imported module ${module}"
 }
 
@@ -23,7 +24,7 @@ usage() {
   msg=$1
 
   if [ -n "${msg}" ]; then
-    echo -e "${msg}\n"
+    printf "%s\n" "${msg}"
   fi
   cat <<EOF
 Usage:
@@ -71,6 +72,7 @@ do
       sanitycheck=1
       ;;
     -d|--debug)
+      # shellcheck disable=SC2034
       debug=1
       ;;
     -q|--quiet)
@@ -121,8 +123,9 @@ if [ ! -f "${profile}" ]; then
   error "Specified profile does not exist!"
   exit 1
 else
+  # shellcheck source=/dev/null
   . "${profile}"
-  if ! touch ${logfile} 2>/dev/null; then
+  if ! touch "${logfile:?}" 2>/dev/null; then
     error "Logfile is not writeable!"
     exit 1
   fi
@@ -176,7 +179,7 @@ runstep finishing_cleanup "Cleaning up"
 
 notify "Install complete!"
 
-if [ "${reboot}" = "yes" ]; then
+if [ "${reboot:=no}" = "yes" ]; then
   notify "Rebooting..."
   reboot
 fi

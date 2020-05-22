@@ -1,7 +1,14 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
 get_arch() {
-  ${linux32} uname -m | sed -e 's:i[3-6]86:x86:' -e 's:x86_64:amd64:' -e 's:parisc:hppa:'
+  # shellcheck disable=SC2154
+  if [ -z ${linux32+x} ]; then
+    uname -m | sed -e 's:i[3-6]86:x86:' -e 's:x86_64:amd64:' -e 's:parisc:hppa:'
+  else
+    ${linux32} uname -m | sed -e 's:i[3-6]86:x86:' -e 's:x86_64:amd64:' -e 's:parisc:hppa:'
+  fi
 }
 
 detect_disks() {
@@ -11,9 +18,9 @@ detect_disks() {
   fi
   count=0
   for i in /sys/block/[hs]d[a-z]; do
-    if [ "$(< ${i}/removable)" = "0" ]; then
-      eval "disk${count}=$(basename ${i})"
-      count=$(expr ${count} + 1)
+    if [ "$(cat "${i}"/removable)" = "0" ]; then
+      eval "disk${count}=$(basename "${i}")"
+      count=$((count+1))
     fi
   done
 }
@@ -23,9 +30,9 @@ get_mac_address() {
 }
 
 unpack_tarball() {
-  local file=$1
-  local dest=$2
-  local preserve=$3
+  file=$1
+  dest=$2
+  preserve=$3
 
   tar_flags="xv"
 
@@ -49,4 +56,3 @@ unpack_tarball() {
   spawn "tar -C ${dest} -${tar_flags} -f ${file}"
   return $?
 }
-

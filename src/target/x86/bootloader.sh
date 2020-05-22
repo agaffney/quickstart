@@ -1,4 +1,6 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
 sanity_check_config_bootloader() {
   if [ -z "${bootloader}" ]; then
@@ -9,22 +11,22 @@ sanity_check_config_bootloader() {
 
 configure_bootloader_grub() {
   echo -e "default 0\ntimeout 30\n" > ${chroot_dir}/boot/grub/grub.conf
-  local boot_root="$(get_boot_and_root)"
-  local boot="$(echo ${boot_root} | cut -d '|' -f1)"
-  local boot_device="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f1)"
-  local boot_minor="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f2)"
-  local root="$(echo ${boot_root} | cut -d '|' -f2)"
-  local kernel_initrd="$(get_kernel_and_initrd)"
+  boot_root="$(get_boot_and_root)"
+  boot="$(echo ${boot_root} | cut -d '|' -f1)"
+  boot_device="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f1)"
+  boot_minor="$(get_device_and_partition_from_devnode ${boot} | cut -d '|' -f2)"
+  root="$(echo ${boot_root} | cut -d '|' -f2)"
+  kernel_initrd="$(get_kernel_and_initrd)"
 
   # Clear out any existing device.map for a "clean" start
   rm ${chroot_dir}/boot/grub/device.map &>/dev/null
 
   for k in ${kernel_initrd}; do
-    local kernel="$(echo ${k} | cut -d '|' -f1)"
-    local initrd="$(echo ${k} | cut -d '|' -f2)"
-    local kv="$(echo ${kernel} | sed -e 's:^kernel-genkernel-[^-]\+-::')"
+    kernel="$(echo ${k} | cut -d '|' -f1)"
+    initrd="$(echo ${k} | cut -d '|' -f2)"
+    kv="$(echo ${kernel} | sed -e 's:^kernel-genkernel-[^-]\+-::')"
     echo "title=Gentoo Linux ${kv}" >> ${chroot_dir}/boot/grub/grub.conf
-    local grub_device="$(map_device_to_grub_device ${boot_device})"
+    grub_device="$(map_device_to_grub_device ${boot_device})"
     if [ -z "${grub_device}" ]; then
       error "could not map boot device ${boot_device} to grub device"
       return 1

@@ -1,3 +1,5 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
-import bootloader_x86
+import "target/x86/bootloader"
