@@ -22,6 +22,33 @@ installer, just one that works well enough to get the system up and running.
 Therefore, instead of writing a new installer from scratch,
 I have instead decided to give Quickstart another chance.
 
+## Installation
+
+```sh
+make install
+```
+
+## Usage
+
+```sh
+quickstart -h
+Usage:
+  quickstart [-h|--help] [-d|--debug] [-v|--verbose] [-q|--quiet]
+             [-s|--sanity-check] [--version] <profile>
+
+Options:
+  -h|--help            Show this message and quit
+  -d|--debug           Output debugging messages
+  -q|--quiet           Only output fatal error messages
+  -v|--verbose         Be verbose (show external command output)
+  -s|--sanity-check    Sanity check install profile and exit
+  -c|--client <host>   Act as a client and connect to a quickstartd
+  --version            Print version and exit
+
+Arguments:
+  profile              Path to an install profile
+```
+
 ## Acknowledgement
 
 Based on the original [Quickstart][quickstart] by Andrew Gaffney.
@@ -49,3 +76,4 @@ See [COPYING](COPYING) file for copyright and license details.
 - [OpenBSD autoinstall(8)](https://man.openbsd.org/autoinstall)
 
 - [Canonical curtin](https://github.com/canonical/curtin)
+

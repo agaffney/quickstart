@@ -1,3 +1,4 @@
 .vagrant/
+modules/
 *.5
 quickstart

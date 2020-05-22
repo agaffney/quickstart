@@ -1,5 +1,7 @@
 #!/bin/sh
 # An installer for Gentoo Linux written in POSIX shell
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
 # Constants
 VERSION="12.7.1"
@@ -44,13 +46,13 @@ EOF
 
 # Import modules
 import output
-import misc
+import util
 import spawn
-import fetcher
+import fetch
 import portage
 import bootloader
 import partition
-import install_steps
+import step
 import config
 import stepcontrol
 import server
