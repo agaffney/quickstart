@@ -132,7 +132,7 @@ Usage:
 
 Parameters:
 
-  export - path to the network filesystem e.g., `10.1.32.4:/usr/portage`.
+  export - path to the network filesystem e.g., `192.168.0.12:/usr/portage`.
 
   type - network filesystem type e.g., `nfs`, `smbfs`, `cifs`, etc.
 
