@@ -30,6 +30,11 @@ SRC += ${SRC_DIR}/spawn.sh
 SRC += ${SRC_DIR}/step.sh
 SRC += ${SRC_DIR}/stepcontrol.sh
 
+SRC += ${SRC_DIR}/amd64/*.sh
+SRC += ${SRC_DIR}/hppa/*.sh
+SRC += ${SRC_DIR}/sparc64/*.sh
+SRC += ${SRC_DIR}/x86/*.sh
+
 all: ${PROGRAM_NAME} man
 
 ${PROGRAM_NAME}:

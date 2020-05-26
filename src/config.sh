@@ -1,4 +1,6 @@
-# $Id$
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-only
+set -eu
 
 install_mode() {
   mode=$1
@@ -12,21 +14,21 @@ part() {
   type=$3
   size=$4
 
-  drive=$(echo ${drive} | sed -e 's:^/dev/::' -e 's:/:_:g')
+  drive=$(echo "${drive}" | sed -e 's:^/dev/::' -e 's:/:_:g')
   drive_temp="partitions_${drive}"
   tmppart="${minor}:${type}:${size}"
-  if [ -n "$(eval echo \${${drive_temp}})" ]; then
-    eval "${drive_temp}=\"$(eval echo \${${drive_temp}}) ${tmppart}\""
+  if [ -n "$(eval "echo \${${drive_temp}}")" ]; then
+    eval "${drive_temp}=\"$(eval "echo \${${drive_temp}}") ${tmppart}\""
   else
     eval "${drive_temp}=\"${tmppart}\""
   fi
-  debug part "${drive_temp} is now: $(eval echo \${${drive_temp}})"
+  debug part "${drive_temp} is now: $(eval "echo \${${drive_temp}}")"
 }
 
 mdraid() {
   array=$1
   shift
-  arrayopts=$@
+  arrayopts=$*
 
   eval "mdraid_${array}=\"${arrayopts}\""
 }
@@ -34,7 +36,7 @@ mdraid() {
 lvm_volgroup() {
   volgroup=$1
   shift
-  devices=$@
+  devices=$*
 
   eval "lvm_volgroup_${volgroup}=\"${devices}\""
 }
@@ -158,7 +160,7 @@ chroot_dir() {
 }
 
 extra_packages() {
-  pkg=$@
+  pkg=$*
 
   if [ -n "${extra_packages}" ]; then
     extra_packages="${extra_packages} ${pkg}"
@@ -168,7 +170,7 @@ extra_packages() {
 }
 
 genkernel_opts() {
-  opts=$@
+  opts=$*
 
   genkernel_opts="${opts}"
 }
@@ -257,7 +259,7 @@ sanity_check_config() {
 
   debug sanity_check_config "$(set | grep '^[a-z]')"
 
-  if [ -n "${install_mode}" -a "${install_mode}" != "normal" -a "${install_mode}" != "chroot" -a "${install_mode}" != "stage4" ]; then
+  if [ -n "${install_mode}" ] && [ "${install_mode}" != "normal" ] && [ "${install_mode}" != "chroot" ] && [ "${install_mode}" != "stage4" ]; then
     error "install_mode must be 'normal', 'chroot', or 'stage4'"
     fatal=1
   fi
@@ -273,11 +275,11 @@ sanity_check_config() {
     warn "tree_type not set...defaulting to sync"
     tree_type="sync"
   fi
-  if [ "${tree_type}" = "snapshot" -a -z "${portage_snapshot_uri}" ]; then
+  if [ "${tree_type}" = "snapshot" ] && [ -z "${portage_snapshot_uri}" ]; then
     error "you must specify a portage snapshot URI with tree_type snapshot"
     fatal=1
   fi
-  if [ -z "${root_password}" -a -z "${root_password_hash}" ]; then
+  if [ -z "${root_password}" ] && [ -z "${root_password_hash}" ]; then
     error "you must specify a root password"
     fatal=1
   fi

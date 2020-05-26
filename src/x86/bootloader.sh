@@ -1,6 +1,5 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-2.0-only
-# shellcheck disable=SC2154
 set -eu
 
 sanity_check_config_bootloader() {

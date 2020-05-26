@@ -19,7 +19,7 @@ get_num_primary() {
 
   primary_count=0
   device_temp="partitions_$(echo "${device}" | sed -e 's:^.\+/::')"
-  for partition in $(eval echo \${"${device_temp}"}); do
+  for partition in $(eval "echo \${${device_temp}}"); do
     debug get_num_primary "partition is ${partition}"
     minor=$(echo "${partition}" | cut -d: -f1)
     if [ "${minor}" -lt "5" ]; then

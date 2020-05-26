@@ -1,2 +1,4 @@
 # Allow using externally defines variables
 disable=SC2154
+# Allow defining variables in functions
+disable=SC2034
