@@ -4,7 +4,7 @@ set -eu
 
 get_arch() {
   # shellcheck disable=SC2154
-  if [ -z ${linux32+x} ]; then
+  if [ -z "${linux32+x}" ]; then
     uname -m | sed -e 's:i[3-6]86:x86:' -e 's:x86_64:amd64:' -e 's:parisc:hppa:'
   else
     ${linux32} uname -m | sed -e 's:i[3-6]86:x86:' -e 's:x86_64:amd64:' -e 's:parisc:hppa:'
