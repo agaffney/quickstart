@@ -3,7 +3,7 @@
 _An installer for Gentoo Linux written in POSIX shell._
 
 [![GNU General Public License v2.0 only](https://img.shields.io/badge/license-GPL--2.0--only-blue?style=flat-square)][GPL-2.0-only]
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/oxr463/quickstart/ShellCheck?style=flat-square)](https://github.com/oxr463/pentesting-guide/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/oxr463/quickstart/ShellCheck?style=flat-square)](https://github.com/oxr463/quickstart/actions)
 
 ## Motivation
 
